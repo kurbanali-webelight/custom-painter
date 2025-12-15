@@ -148,6 +148,50 @@
             line-height: 1.8;
         }
 
+        .hero-image {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .motivational-quote {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            color: #6c757d;
+        }
+
+        .motivational-quote blockquote {
+            font-size: 0.9em;
+            font-style: italic;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: #6c757d;
+        }
+
+        .motivational-quote .quote-author {
+            margin-top: 8px;
+            font-size: 0.85em;
+            font-style: normal;
+            color: #6c757d;
+        }
+
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -227,6 +271,22 @@
             .toc-section li a .topic-text strong {
                 font-size: 0.85em;
             }
+
+            .hero-image {
+                padding: 20px;
+            }
+
+            .hero-image img {
+                max-width: 100%;
+            }
+
+            .motivational-quote {
+                padding: 8px 0;
+            }
+
+            .motivational-quote blockquote {
+                font-size: 0.85em;
+            }
         }
     </style>
 </head>
@@ -290,6 +350,19 @@
                 Navigate through the topics above to learn everything you need to know about CustomPainter, from basic
                 concepts to advanced implementations.
             </p>
+        </div>
+
+        <div class="hero-image">
+            <img src="assets/custom_painter.png"
+                alt="A Developer's Guide to Flutter's CustomPainter - Infographic showing what CustomPainter is, when to use it, and implementation workflow" />
+        </div>
+
+        <div class="motivational-quote">
+            <blockquote>
+                The only way to do great work is to love what you do. Every pixel you paint, every line you draw, brings
+                you one step closer to creating something extraordinary.
+            </blockquote>
+            <div class="quote-author">— Keep coding, keep creating! 🚀</div>
         </div>
     </div>
 
