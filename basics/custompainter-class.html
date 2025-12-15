@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖌️ CustomPainter Class - Custom Painter Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #e8f0fe;
+            transform: translateX(-3px);
+        }
+
+        .section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #1a73e8;
+        }
+
+        .code-block code {
+            color: #2c3e50;
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e8f0fe;
+            margin: 30px 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🖌️ CustomPainter Class and its Overrides</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Topics</a>
+
+        <section class="section">
+            <h2>📚 Part 1: CustomPainter Class</h2>
+            <p>
+                CustomPainter is an <strong>abstract class</strong> that you must extend to create your own custom
+                painter. It has two mandatory methods you must override.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Method 1: <code>paint(Canvas canvas, Size size)</code> 🎨</h2>
+
+            <p><strong>Purpose:</strong> This is where ALL your drawing logic goes. Flutter calls this method whenever
+                your custom graphics need to be rendered on screen.</p>
+
+            <h3>Parameters:</h3>
+
+            <p><strong>1. <code>Canvas canvas</code></strong></p>
+            <ul>
+                <li>This is your drawing surface</li>
+                <li>Contains all the methods to draw shapes, lines, text, images, etc.</li>
+                <li>Think of it as the actual canvas/paper where you'll create your artwork</li>
+                <li>Flutter provides this to you automatically - you don't create it</li>
+            </ul>
+
+            <p><strong>2. <code>Size size</code></strong></p>
+            <ul>
+                <li>Represents the dimensions (width and height) available for drawing</li>
+                <li>Tells you how much space you have to work with</li>
+                <li><code>size.width</code> gives you the width in logical pixels</li>
+                <li><code>size.height</code> gives you the height in logical pixels</li>
+                <li>This size comes from the CustomPaint widget's constraints</li>
+            </ul>
+
+            <p><strong>When is it called?</strong></p>
+            <ul>
+                <li>When the widget is first built</li>
+                <li>When the widget needs to be repainted (due to state changes, animations, etc.)</li>
+                <li>When <code>shouldRepaint()</code> returns true</li>
+                <li>During screen rotations or size changes</li>
+            </ul>
+
+            <p><strong>What you do inside:</strong></p>
+            <ul>
+                <li>Create Paint objects to configure how things should look</li>
+                <li>Use Canvas methods to draw shapes, paths, images, text</li>
+                <li>Perform calculations based on the size</li>
+                <li>Apply transformations (rotate, scale, translate)</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li>This method should be <strong>pure</strong> - it shouldn't modify any external state</li>
+                    <li>It should only use the canvas and size parameters to draw</li>
+                    <li>Keep it efficient - it might be called 60 times per second during animations</li>
+                    <li>Don't do heavy calculations here if you can cache them elsewhere</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width / 2, size.height / 2),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;50,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint,<br>
+&nbsp;&nbsp;);<br>
+}
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Method 2: <code>shouldRepaint(covariant CustomPainter oldDelegate)</code> ⚡</h2>
+
+            <p><strong>Purpose:</strong> This is a performance optimization method. It tells Flutter whether it needs to
+                call <code>paint()</code> again or if it can reuse the previous rendering.</p>
+
+            <h3>Parameter:</h3>
+
+            <p><strong>1. <code>oldDelegate</code></strong></p>
+            <ul>
+                <li>This is the previous instance of your CustomPainter</li>
+                <li>You compare it with the current instance (this)</li>
+                <li>The <code>covariant</code> keyword means it's specifically your CustomPainter subclass type</li>
+            </ul>
+
+            <p><strong>Return Value:</strong></p>
+            <ul>
+                <li>Returns <code>bool</code> (true or false)</li>
+                <li><strong><code>true</code></strong> = "Yes, something changed, please repaint"</li>
+                <li><strong><code>false</code></strong> = "Nothing changed, reuse the old painting"</li>
+            </ul>
+
+            <p><strong>How to implement it:</strong></p>
+            <p>
+                You compare the properties that affect the drawing. If any property that influences the visual output
+                has changed, return true.
+            </p>
+
+            <p><strong>Example Logic:</strong></p>
+            <p>
+                If your CustomPainter has properties like:
+            </p>
+            <ul>
+                <li>color</li>
+                <li>progress (0.0 to 1.0)</li>
+                <li>strokeWidth</li>
+            </ul>
+            <p>
+                Then you compare:
+            </p>
+            <ul>
+                <li>Is the new color different from old color?</li>
+                <li>Is the new progress different from old progress?</li>
+                <li>Is the new strokeWidth different from old strokeWidth?</li>
+            </ul>
+            <p>
+                If ANY of these changed → return true<br>
+                If ALL are the same → return false
+            </p>
+
+            <div class="highlight-box">
+                <strong>⚡ Why this matters:</strong>
+                <ul>
+                    <li>Drawing can be expensive (CPU/GPU intensive)</li>
+                    <li>If nothing changed, why redraw?</li>
+                    <li>Returning false when possible saves battery and improves performance</li>
+                    <li>Especially important for complex drawings or when there are many CustomPaint widgets</li>
+                </ul>
+            </div>
+
+            <h3>Common Patterns:</h3>
+
+            <p><strong>Pattern 1 - Always Repaint:</strong> 🔄</p>
+            <p>When you're doing animations or the painting always changes:</p>
+            <div class="code-block">
+                <code>
+@override<br>
+bool shouldRepaint(CustomPainter oldDelegate) {<br>
+&nbsp;&nbsp;return true; // Always repaint<br>
+}
+                </code>
+            </div>
+
+            <p><strong>Pattern 2 - Compare Properties:</strong> 🔍</p>
+            <p>When you have specific properties that control the drawing:</p>
+            <div class="code-block">
+                <code>
+@override<br>
+bool shouldRepaint(MyCustomPainter oldDelegate) {<br>
+&nbsp;&nbsp;return oldDelegate.color != color ||<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldDelegate.progress != progress ||<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldDelegate.strokeWidth != strokeWidth;<br>
+}
+                </code>
+            </div>
+
+            <p><strong>Pattern 3 - Never Repaint:</strong> 🚫</p>
+            <p>When you have a static drawing that never changes:</p>
+            <div class="code-block">
+                <code>
+@override<br>
+bool shouldRepaint(CustomPainter oldDelegate) {<br>
+&nbsp;&nbsp;return false; // Never repaint<br>
+}
+                </code>
+            </div>
+
+            <div class="code-block">
+                <code>
+class CirclePainter extends CustomPainter {<br>
+&nbsp;&nbsp;final Color color;<br>
+&nbsp;&nbsp;final double progress;<br>
+<br>
+&nbsp;&nbsp;CirclePainter({required this.color, required this.progress});<br>
+<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Drawing logic here<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;bool shouldRepaint(CirclePainter oldDelegate) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return oldDelegate.color != color ||<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldDelegate.progress != progress;<br>
+&nbsp;&nbsp;}<br>
+}
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📝 Summary</h2>
+            <p>
+                CustomPainter requires you to implement two essential methods:
+            </p>
+            <ol>
+                <li><strong><code>paint()</code></strong> 🎨 - Where all your drawing happens. Receives a Canvas and
+                    Size, draws your custom graphics.</li>
+                <li><strong><code>shouldRepaint()</code></strong> ⚡ - Performance optimization. Returns true if
+                    repainting is needed, false to reuse previous rendering.</li>
+            </ol>
+
+            <div class="success-box">
+                <strong>✅ Key Takeaway:</strong> These two methods work together to create efficient, performant custom
+                graphics in Flutter. The <code>paint()</code> method does the actual drawing work, while
+                <code>shouldRepaint()</code> ensures Flutter only redraws when necessary, saving valuable CPU and
+                battery resources.
+            </div>
+        </section>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+        <span>Back to top</span>
+    </button>
+
+    <script>
+        // Back to Top Button Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTopButton = document.getElementById('backToTop');
+
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                });
+
+                backToTopButton.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

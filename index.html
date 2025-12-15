@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Complete Custom Painter Documentation - Flutter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 50px 0;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .nav-links {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .nav-links h2 {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        .toc-section {
+            margin-bottom: 12px;
+        }
+
+        .toc-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .toc-section ul {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .toc-section li {
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-section li a {
+            color: #495057;
+            text-decoration: none;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .toc-section li a:hover {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+            transform: translateX(3px);
+        }
+
+        .toc-section li a .topic-emoji {
+            font-size: 1em;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        .toc-section li a .topic-text {
+            flex: 1;
+        }
+
+        .toc-section li a .topic-text strong {
+            display: inline;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .toc-section li a .topic-text small {
+            display: block;
+            font-size: 0.85em;
+            color: #6c757d;
+            font-weight: normal;
+        }
+
+        .info-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        .info-section p {
+            color: #495057;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 115, 232, 0.5);
+        }
+
+        footer {
+            background-color: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-links {
+                padding: 12px 15px;
+            }
+
+            .nav-links h2 {
+                font-size: 1.1em;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+            }
+
+            .toc-section {
+                margin-bottom: 10px;
+            }
+
+            .toc-section li {
+                margin-bottom: 3px;
+            }
+
+            .toc-section li a {
+                padding: 5px 8px;
+                font-size: 0.85em;
+            }
+
+            .toc-section li a .topic-emoji {
+                font-size: 0.95em;
+                min-width: 20px;
+            }
+
+            .toc-section li a .topic-text strong {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🎨 Custom Painter in Flutter</h1>
+            <p class="subtitle">Complete Documentation & Guide</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav-links">
+            <h2>📚 Table of Contents</h2>
+
+            <div class="toc-section">
+                <ul>
+                    <li>
+                        <a href="basics/what-is-custom-painter.html">
+                            <span class="topic-emoji">🎯</span>
+                            <span class="topic-text">
+                                <strong>What is Custom Painter?</strong>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="basics/custompaint-widget.html">
+                            <span class="topic-emoji">⚙️</span>
+                            <span class="topic-text">
+                                <strong>CustomPaint Widget</strong>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="basics/custompainter-class.html">
+                            <span class="topic-emoji">🖌️</span>
+                            <span class="topic-text">
+                                <strong>CustomPainter Class</strong>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+
+        <div class="info-section">
+            <h2>🚀 Getting Started</h2>
+            <p>
+                Welcome to the complete Custom Painter documentation for Flutter! This guide will help you master custom
+                graphics and visualizations in Flutter applications.
+            </p>
+            <p>
+                <strong>CustomPainter</strong> is a powerful Flutter class that gives you direct access to a drawing
+                canvas where you can create custom graphics pixel-by-pixel. It's perfect for creating unique visual
+                elements that standard widgets can't achieve.
+            </p>
+            <p>
+                Navigate through the topics above to learn everything you need to know about CustomPainter, from basic
+                concepts to advanced implementations.
+            </p>
+        </div>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+        <span>Back to top</span>
+    </button>
+
+    <script>
+        // Back to Top Button Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTopButton = document.getElementById('backToTop');
+
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                });
+
+                backToTopButton.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

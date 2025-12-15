@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚙️ CustomPaint Widget - Custom Painter Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #e8f0fe;
+            transform: translateX(-3px);
+        }
+
+        .section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #1a73e8;
+        }
+
+        .code-block code {
+            color: #2c3e50;
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e8f0fe;
+            margin: 30px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>⚙️ CustomPaint Widget and its Properties</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Topics</a>
+
+        <section class="section">
+            <h2>📦 Part 2: CustomPaint Widget</h2>
+            <p>
+                CustomPaint is the actual <strong>widget</strong> that you place in your widget tree. It acts as a
+                container that displays the artwork created by your CustomPainter.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>🔧 All Properties of CustomPaint Widget</h2>
+
+            <hr>
+
+            <h3>Property 1: <code>painter</code> 🎨</h3>
+
+            <p><strong>Type:</strong> <code>CustomPainter?</code> (optional/nullable)</p>
+
+            <p><strong>Purpose:</strong> The CustomPainter that draws the background/main content.</p>
+
+            <p><strong>Details:</strong></p>
+            <ul>
+                <li>This is typically your main custom painter</li>
+                <li>It draws BEHIND any child widget</li>
+                <li>Gets called first in the rendering order</li>
+                <li>If you only have one painter, this is the one you use</li>
+            </ul>
+
+            <p><strong>Use Case:</strong></p>
+            <ul>
+                <li>Drawing backgrounds</li>
+                <li>Creating the main visual content</li>
+                <li>Drawing underneath other widgets</li>
+            </ul>
+
+            <p><strong>When null:</strong> Nothing is painted in the background (which is fine if you only use
+                foregroundPainter)</p>
+
+            <div class="code-block">
+                <code>
+CustomPaint(<br>
+&nbsp;&nbsp;painter: MyCustomPainter(),<br>
+)
+                </code>
+            </div>
+
+            <hr>
+
+            <h3>Property 2: <code>foregroundPainter</code> 🖼️</h3>
+
+            <p><strong>Type:</strong> <code>CustomPainter?</code> (optional/nullable)</p>
+
+            <p><strong>Purpose:</strong> A CustomPainter that draws on TOP of the child widget.</p>
+
+            <p><strong>Details:</strong></p>
+            <ul>
+                <li>Draws AFTER the child widget is rendered</li>
+                <li>Useful for overlays, borders, or decorations that should appear on top</li>
+                <li>Works in combination with painter and child</li>
+            </ul>
+
+            <p><strong>Rendering Order:</strong></p>
+            <ol>
+                <li><code>painter</code> draws first (background)</li>
+                <li><code>child</code> widget renders in the middle</li>
+                <li><code>foregroundPainter</code> draws last (foreground/overlay)</li>
+            </ol>
+
+            <p><strong>Use Case:</strong></p>
+            <ul>
+                <li>Adding borders or frames around content</li>
+                <li>Creating overlay effects (like selection highlights)</li>
+                <li>Drawing decorative elements on top</li>
+                <li>Adding masks or filters over child widgets</li>
+            </ul>
+
+            <p><strong>When null:</strong> Nothing is painted in the foreground</p>
+
+            <p><strong>Example Scenario:</strong></p>
+            <p>
+                Imagine a profile picture widget:
+            </p>
+            <ul>
+                <li><code>painter</code> → draws a decorative background circle</li>
+                <li><code>child</code> → the actual image widget</li>
+                <li><code>foregroundPainter</code> → draws a border ring around the image</li>
+            </ul>
+
+            <div class="code-block">
+                <code>
+CustomPaint(<br>
+&nbsp;&nbsp;painter: BackgroundPainter(),<br>
+&nbsp;&nbsp;foregroundPainter: ForegroundPainter(),<br>
+&nbsp;&nbsp;child: SomeWidget(),<br>
+)
+                </code>
+            </div>
+
+            <hr>
+
+            <h3>Property 3: <code>child</code> 👶</h3>
+
+            <p><strong>Type:</strong> <code>Widget?</code> (optional/nullable)</p>
+
+            <p><strong>Purpose:</strong> A regular Flutter widget that sits between the painter and foregroundPainter.
+            </p>
+
+            <p><strong>Details:</strong></p>
+            <ul>
+                <li>This is any standard widget (Container, Text, Image, etc.)</li>
+                <li>Gets rendered AFTER painter but BEFORE foregroundPainter</li>
+                <li>The size of CustomPaint can be influenced by this child's size</li>
+                <li>The child widget is NOT affected by what the painters draw</li>
+            </ul>
+
+            <p><strong>Use Case:</strong></p>
+            <ul>
+                <li>Combining custom graphics with standard widgets</li>
+                <li>Creating decorated containers with custom borders</li>
+                <li>Building complex components that mix custom painting with regular widgets</li>
+            </ul>
+
+            <p><strong>When null:</strong> Only the painters render; CustomPaint's size must be determined by other
+                means (size property or parent constraints)</p>
+
+            <div class="info-box">
+                <strong>💡 Important Note:</strong> The child widget doesn't "know" about the custom painting around it.
+                The painters are purely visual overlays/underlays.
+            </div>
+
+            <div class="code-block">
+                <code>
+CustomPaint(<br>
+&nbsp;&nbsp;painter: BackgroundPainter(),<br>
+&nbsp;&nbsp;child: Container(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;child: Text('Content'),<br>
+&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;foregroundPainter: BorderPainter(),<br>
+)
+                </code>
+            </div>
+
+            <hr>
+
+            <h3>Property 4: <code>size</code> 📏</h3>
+
+            <p><strong>Type:</strong> <code>Size</code></p>
+
+            <p><strong>Purpose:</strong> Explicitly sets the size of the CustomPaint widget.</p>
+
+            <p><strong>Details:</strong></p>
+            <ul>
+                <li>Defines the exact width and height for the canvas</li>
+                <li>Measured in logical pixels</li>
+                <li>This size gets passed to your CustomPainter's <code>paint()</code> method</li>
+            </ul>
+
+            <p><strong>Default Behavior (when size is Size.zero or default):</strong></p>
+            <ul>
+                <li>If there's a <code>child</code>, CustomPaint takes the child's size</li>
+                <li>If there's no child, CustomPaint tries to be as big as its parent allows</li>
+                <li>If parent has infinite constraints, defaults to Size.zero</li>
+            </ul>
+
+            <p><strong>Explicit Sizing:</strong></p>
+            <ul>
+                <li><code>Size(200, 100)</code> → exactly 200 pixels wide, 100 pixels tall</li>
+                <li><code>Size.square(150)</code> → 150x150 square</li>
+                <li><code>Size.infinite</code> → tries to fill all available space</li>
+                <li><code>Size.zero</code> → collapses to zero (invisible unless child provides size)</li>
+            </ul>
+
+            <p><strong>Use Case:</strong></p>
+            <ul>
+                <li>When you need exact dimensions regardless of child or parent</li>
+                <li>Creating fixed-size custom graphics (like icons)</li>
+                <li>Ensuring consistent canvas size for calculations</li>
+            </ul>
+
+            <p><strong>Common Practice:</strong></p>
+            <p>
+                Often left at default and controlled by wrapping CustomPaint in a Container or SizedBox to control
+                dimensions instead.
+            </p>
+
+            <div class="code-block">
+                <code>
+CustomPaint(<br>
+&nbsp;&nbsp;painter: MyPainter(),<br>
+&nbsp;&nbsp;size: Size(200, 200),<br>
+)
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📊 Summary Table: CustomPaint Properties</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                        <th>When to Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>painter</code></td>
+                        <td>CustomPainter?</td>
+                        <td>Background painter</td>
+                        <td>Main drawing layer</td>
+                    </tr>
+                    <tr>
+                        <td><code>foregroundPainter</code></td>
+                        <td>CustomPainter?</td>
+                        <td>Overlay painter</td>
+                        <td>Effects on top of child</td>
+                    </tr>
+                    <tr>
+                        <td><code>child</code></td>
+                        <td>Widget?</td>
+                        <td>Standard widget</td>
+                        <td>Mixing custom + regular widgets</td>
+                    </tr>
+                    <tr>
+                        <td><code>size</code></td>
+                        <td>Size</td>
+                        <td>Explicit dimensions</td>
+                        <td>Fixed-size graphics</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>🔗 The Complete Picture</h2>
+            <p>
+                Here's how everything connects:
+            </p>
+
+            <p><strong>CustomPaint Widget</strong> (what you place in your tree)</p>
+            <ul>
+                <li>Has a <code>painter</code> property → your CustomPainter class</li>
+                <li>Has optional <code>foregroundPainter</code>, <code>child</code>, and sizing properties</li>
+                <li>Provides the rendering context</li>
+            </ul>
+
+            <p><strong>Your CustomPainter Class</strong> (your custom drawing logic)</p>
+            <ul>
+                <li><strong><code>paint()</code></strong> method → receives Canvas and Size, draws everything</li>
+                <li><strong><code>shouldRepaint()</code></strong> method → optimizes by deciding when to redraw</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🔄 Flutter's Rendering Flow:</strong>
+                <ol>
+                    <li>CustomPaint widget is built</li>
+                    <li>Flutter determines size (from size property, child, or constraints)</li>
+                    <li>If <code>painter</code> exists, calls its <code>paint(canvas, size)</code> method</li>
+                    <li>If <code>child</code> exists, renders it</li>
+                    <li>If <code>foregroundPainter</code> exists, calls its <code>paint(canvas, size)</code> method</li>
+                    <li>On subsequent frames, calls <code>shouldRepaint()</code> to check if repainting is needed</li>
+                </ol>
+            </div>
+        </section>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+        <span>Back to top</span>
+    </button>
+
+    <script>
+        // Back to Top Button Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTopButton = document.getElementById('backToTop');
+
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                });
+
+                backToTopButton.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
