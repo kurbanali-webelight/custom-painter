@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖌️ What is Paint? - Custom Painter Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #e8f0fe;
+            transform: translateX(-3px);
+        }
+
+        .section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #1a73e8;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-button:hover {
+            background-color: #1557b0;
+            transform: translateY(-1px);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button.copied {
+            background-color: #28a745;
+        }
+
+        .code-block code {
+            color: #2c3e50;
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e8f0fe;
+            margin: 30px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🖌️ What is Paint Object?</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Topics</a>
+
+        <section class="section">
+            <h2>📚 What is Paint?</h2>
+            <p>
+                <strong>Paint</strong> is a class in Flutter (from <code>dart:ui</code>) that describes the
+                <strong>style and configuration</strong> for drawing operations. It controls <strong>HOW</strong> things
+                are drawn - their color, thickness, effects, and appearance.
+            </p>
+
+            <p><strong>Think of Paint as:</strong></p>
+            <ul>
+                <li>Your paintbrush configuration</li>
+                <li>The settings on your drawing tool</li>
+                <li>Style instructions for the canvas</li>
+                <li>The "look and feel" of what you draw</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Key Concept:</strong> <strong>Paint</strong> is separate from <strong>Canvas</strong>.
+                <strong>Canvas</strong> defines <strong>WHAT</strong> to draw (shapes, paths), <strong>Paint</strong>
+                defines <strong>HOW</strong> to draw it (color, style, effects).
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎨 Paint Properties (Complete A-Z Reference)</h2>
+
+            <h3><code>color</code></h3>
+            <p><strong>Type:</strong> <code>Color color</code></p>
+            <p><strong>Definition:</strong> The color to use when painting. This is the most fundamental Paint property.
+            </p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>Sets the color of filled shapes or stroked lines</li>
+                <li>Applies to everything drawn with this Paint object</li>
+                <li>Includes alpha channel for transparency</li>
+                <li>If a shader is set, color is ignored (shader takes precedence)</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Solid red circle<br>
+&nbsp;&nbsp;final redPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red;<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(50, 50), 30, redPaint);<br>
+<br>
+&nbsp;&nbsp;// Blue with 50% opacity<br>
+&nbsp;&nbsp;final semiTransparentBluePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue.withOpacity(0.5);<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(100, 50), 30, semiTransparentBluePaint);<br>
+<br>
+&nbsp;&nbsp;// Custom color using ARGB<br>
+&nbsp;&nbsp;final customPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Color.fromARGB(255, 100, 200, 150); // RGB values<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(150, 50), 30, customPaint);<br>
+<br>
+&nbsp;&nbsp;// Hex color<br>
+&nbsp;&nbsp;final hexColorPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Color(0xFF42A5F5);<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(200, 50), 30, hexColorPaint);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>isAntiAlias</code></h3>
+            <p><strong>Type:</strong> <code>bool isAntiAlias</code></p>
+            <p><strong>Definition:</strong> Controls whether edges are smoothed (anti-aliased) or appear jagged
+                (aliased). Anti-aliasing makes edges look smoother by blending pixels.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li><code>true</code> (default) - Smooth, professional-looking edges</li>
+                <li><code>false</code> - Sharp, pixelated edges (faster performance)</li>
+                <li>Affects lines, curves, and shape edges</li>
+                <li>Small performance cost when enabled</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Aliased line (jagged, pixelated)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(10, 10),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(100, 100),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.black<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = false, // Jagged edges<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Anti-aliased line (smooth)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(120, 10),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(210, 100),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.black<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = true, // Smooth edges (default)<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Circle comparison<br>
+&nbsp;&nbsp;// Aliased circle (pixelated edge)<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 150),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;30,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = false,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Anti-aliased circle (smooth edge)<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(150, 150),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;30,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = true,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>invertColors</code></h3>
+            <p><strong>Type:</strong> <code>bool invertColors</code></p>
+            <p><strong>Definition:</strong> When <code>true</code>, inverts the colors of everything painted with this
+                Paint. Black becomes white, red becomes cyan, etc.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>RGB values are inverted: <code>newColor = 255 - oldColor</code></li>
+                <li>Creates negative/inverted image effect</li>
+                <li>Useful for dark mode adjustments</li>
+                <li>Alpha channel is NOT inverted</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Normal blue circle<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(80, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;40,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..invertColors = false, // Default<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Inverted blue circle (becomes yellow/orange)<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(200, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;40,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..invertColors = true,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Practical use: Dark mode conversion<br>
+&nbsp;&nbsp;final textPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.black<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..invertColors = true; // Becomes white for dark mode<br>
+<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(10, 120, 100, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textPaint,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>shader</code></h3>
+            <p><strong>Type:</strong> <code>Shader? shader</code></p>
+            <p><strong>Definition:</strong> Applies a gradient or pattern fill instead of a solid color. Shaders provide
+                advanced color effects like linear gradients, radial gradients, and sweep gradients.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>Replaces solid color with gradient or pattern</li>
+                <li>When shader is set, the <code>color</code> property is ignored</li>
+                <li>Shaders are created from <code>Gradient</code> classes</li>
+                <li>Can create complex, beautiful effects</li>
+            </ul>
+            <p><strong>Shader Types (from Gradients):</strong></p>
+            <ul>
+                <li><code>LinearGradient</code> - Color transition along a line</li>
+                <li><code>RadialGradient</code> - Color transition from center outward</li>
+                <li><code>SweepGradient</code> - Color transition around a circle</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Linear gradient (left to right)<br>
+&nbsp;&nbsp;final linearGradient = LinearGradient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors: [Colors.blue, Colors.red],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;begin: Alignment.centerLeft,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end: Alignment.centerRight,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;final rect1 = Rect.fromLTWH(10, 10, 100, 100);<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rect1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()..shader = linearGradient.createShader(rect1),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Radial gradient (center outward)<br>
+&nbsp;&nbsp;final radialGradient = RadialGradient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors: [Colors.yellow, Colors.orange, Colors.red],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stops: [0.0, 0.5, 1.0],<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;final rect2 = Rect.fromLTWH(120, 10, 100, 100);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(170, 60),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;50,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()..shader = radialGradient.createShader(rect2),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Sweep gradient (around circle)<br>
+&nbsp;&nbsp;final sweepGradient = SweepGradient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.red,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.yellow,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.green,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.cyan,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.blue,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.magenta,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.red,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;final rect3 = Rect.fromLTWH(230, 10, 100, 100);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(280, 60),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;50,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()..shader = sweepGradient.createShader(rect3),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Multi-stop gradient<br>
+&nbsp;&nbsp;final complexGradient = LinearGradient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;colors: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.purple,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.blue,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.green,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.yellow,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.red,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stops: [0.0, 0.25, 0.5, 0.75, 1.0],<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;final rect4 = Rect.fromLTWH(10, 120, 320, 60);<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rect4,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()..shader = complexGradient.createShader(rect4),<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>strokeCap</code></h3>
+            <p><strong>Type:</strong> <code>StrokeCap strokeCap</code></p>
+            <p><strong>Definition:</strong> Controls how the ends of lines (strokes) are drawn. Determines the shape of
+                line terminals.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>Affects the appearance of line endings</li>
+                <li>Only applies when <code>style = PaintingStyle.stroke</code></li>
+                <li>Can make lines look rounded, square, or flat</li>
+                <li>Affects perceived line length</li>
+            </ul>
+            <p><strong>StrokeCap Values:</strong></p>
+            <ul>
+                <li><code>StrokeCap.butt</code> - Flat end, exactly at endpoint (default)</li>
+                <li><code>StrokeCap.round</code> - Rounded semicircular end</li>
+                <li><code>StrokeCap.square</code> - Square end, extends beyond endpoint by <code>strokeWidth/2</code>
+                </li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 20<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke;<br>
+<br>
+&nbsp;&nbsp;// Butt cap (flat, exact endpoint)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(200, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeCap = StrokeCap.butt,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Round cap (rounded ends)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 100),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(200, 100),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeCap = StrokeCap.round,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Square cap (extends beyond endpoint)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 150),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(200, 150),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeCap = StrokeCap.square,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Practical example: Round caps for progress bars<br>
+&nbsp;&nbsp;canvas.drawArc(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromCircle(center: Offset(150, 250), radius: 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-pi / 2, // Start at top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pi, // Half circle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;false, // Don't use center<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeCap = StrokeCap.round, // Rounded ends look professional<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>strokeJoin</code></h3>
+            <p><strong>Type:</strong> <code>StrokeJoin strokeJoin</code></p>
+            <p><strong>Definition:</strong> Controls how corners (joins) between connected line segments are drawn.
+                Determines the shape at path vertices.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>Affects the appearance of corners in paths and polygons</li>
+                <li>Only applies when <code>style = PaintingStyle.stroke</code></li>
+                <li>Can make corners rounded, sharp, or beveled</li>
+                <li>Affects how thick corners appear</li>
+            </ul>
+            <p><strong>StrokeJoin Values:</strong></p>
+            <ul>
+                <li><code>StrokeJoin.miter</code> - Sharp pointed corner (default), can extend far</li>
+                <li><code>StrokeJoin.round</code> - Rounded corner</li>
+                <li><code>StrokeJoin.bevel</code> - Flat diagonal corner</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 15<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke;<br>
+<br>
+&nbsp;&nbsp;// Miter join (sharp corners)<br>
+&nbsp;&nbsp;final miterPath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(50, 50)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(100, 100)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(150, 50)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(200, 100);<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;miterPath,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeJoin = StrokeJoin.miter,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Round join (rounded corners)<br>
+&nbsp;&nbsp;final roundPath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(50, 150)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(100, 200)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(150, 150)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(200, 200);<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;roundPath,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeJoin = StrokeJoin.round,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Bevel join (flat corners)<br>
+&nbsp;&nbsp;final bevelPath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(50, 250)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(100, 300)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(150, 250)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(200, 300);<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bevelPath,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeJoin = StrokeJoin.bevel,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>strokeWidth</code></h3>
+            <p><strong>Type:</strong> <code>double strokeWidth</code></p>
+            <p><strong>Definition:</strong> The thickness of lines and shape outlines when using stroke style. Measured
+                in logical pixels.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>Controls how thick lines and outlines appear</li>
+                <li>Only visible when <code>style = PaintingStyle.stroke</code></li>
+                <li>Grows outward from the path center</li>
+                <li>Affected by canvas scaling</li>
+                <li>Default is <code>0.0</code> (hairline width)</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke;<br>
+<br>
+&nbsp;&nbsp;// Very thin line (1 pixel)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 20),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(250, 20),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 1,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Medium line (5 pixels)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(250, 50),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 5,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Thick line (10 pixels)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 90),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(250, 90),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 10,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Very thick line (20 pixels)<br>
+&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 140),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(250, 140),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 20,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Circles with different stroke widths<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(100, 280),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;30,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(180, 280),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;30,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 8,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(260, 280),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;30,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..strokeWidth = 15,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+
+            <hr>
+
+            <h3><code>style</code></h3>
+            <p><strong>Type:</strong> <code>PaintingStyle style</code></p>
+            <p><strong>Definition:</strong> Determines whether shapes are filled or only outlined (stroked). This is one
+                of the most important Paint properties.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li><code>PaintingStyle.fill</code> (default) - Fills the interior of shapes</li>
+                <li><code>PaintingStyle.stroke</code> - Draws only the outline/border</li>
+                <li>Affects all shape drawing operations</li>
+                <li>Changes how <code>strokeWidth</code>, <code>strokeCap</code>, <code>strokeJoin</code> are applied
+                </li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Filled circle (default)<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(70, 70),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;40,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill, // Default<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Stroked circle (outline only)<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(180, 70),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;40,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Filled rectangle<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(30, 140, 80, 60),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Stroked rectangle<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(140, 140, 80, 60),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Practical example: Button with border<br>
+&nbsp;&nbsp;final buttonRect = Rect.fromLTWH(50, 350, 150, 50);<br>
+<br>
+&nbsp;&nbsp;// Fill background<br>
+&nbsp;&nbsp;canvas.drawRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(buttonRect, Radius.circular(25)),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue.withOpacity(0.3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw border<br>
+&nbsp;&nbsp;canvas.drawRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(buttonRect, Radius.circular(25)),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Complete Paint Example: Combining Properties</h2>
+            <p>Here's a comprehensive example showing multiple Paint properties working together:</p>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+class ComprehensivePaintDemo extends CustomPainter {<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Example 1: Glowing gradient circle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final glowPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..shader = RadialGradient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colors: [Colors.blue, Colors.purple],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).createShader(Rect.fromCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;center: Offset(80, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;radius: 50,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..maskFilter = MaskFilter.blur(BlurStyle.normal, 10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = true;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(Offset(80, 80), 50, glowPaint);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Example 2: Multi-gradient rectangle with shadow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.save();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.translate(80, 200);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Shadow layer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final shadowPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.black.withOpacity(0.3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..maskFilter = MaskFilter.blur(BlurStyle.normal, 8);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(5, 5, 120, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius.circular(15),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shadowPaint,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Main shape with gradient<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final gradientPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..shader = LinearGradient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colors: [Colors.pink, Colors.purple, Colors.blue],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin: Alignment.topLeft,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end: Alignment.bottomRight,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).createShader(Rect.fromLTWH(0, 0, 120, 80))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = true;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(0, 0, 120, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius.circular(15),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gradientPaint,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Border<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final borderStroke = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..isAntiAlias = true;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(0, 0, 120, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius.circular(15),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;borderStroke,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.restore();<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;bool shouldRepaint(covariant CustomPainter oldDelegate) => false;<br>
+}<br>
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 Summary: Paint Properties Quick Reference</h2>
+            <p>Complete reference table of all Paint properties:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Purpose</th>
+                        <th>Default</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>blendMode</code></td>
+                        <td>How colors blend</td>
+                        <td><code>BlendMode.srcOver</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>color</code></td>
+                        <td>Solid color</td>
+                        <td>Black</td>
+                    </tr>
+                    <tr>
+                        <td><code>colorFilter</code></td>
+                        <td>Color transformations</td>
+                        <td><code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>filterQuality</code></td>
+                        <td>Image sampling quality</td>
+                        <td><code>FilterQuality.none</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>imageFilter</code></td>
+                        <td>Image effects (blur, etc.)</td>
+                        <td><code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>invertColors</code></td>
+                        <td>Invert RGB values</td>
+                        <td><code>false</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isAntiAlias</code></td>
+                        <td>Smooth edges</td>
+                        <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>maskFilter</code></td>
+                        <td>Edge blur/glow</td>
+                        <td><code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>shader</code></td>
+                        <td>Gradient/pattern fill</td>
+                        <td><code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>strokeCap</code></td>
+                        <td>Line end shape</td>
+                        <td><code>StrokeCap.butt</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>strokeJoin</code></td>
+                        <td>Corner shape</td>
+                        <td><code>StrokeJoin.miter</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>strokeMiterLimit</code></td>
+                        <td>Max miter extension</td>
+                        <td><code>4.0</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>strokeWidth</code></td>
+                        <td>Line thickness</td>
+                        <td><code>0.0</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>style</code></td>
+                        <td>Fill or stroke</td>
+                        <td><code>PaintingStyle.fill</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <strong>✅ Key Takeaway:</strong> The <strong>Paint</strong> object is your tool for controlling every
+                visual aspect of your drawings. Combine properties like <code>color</code>, <code>shader</code>,
+                <code>style</code>, <code>strokeWidth</code>, and <code>maskFilter</code> to create beautiful, polished
+                graphics in Flutter.
+            </div>
+        </section>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+        <span>Back to top</span>
+    </button>
+
+    <script>
+        // Back to Top Button Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const backToTopButton = document.getElementById('backToTop');
+
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                });
+
+                backToTopButton.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const codeElement = codeBlock.querySelector('code');
+
+            if (!codeElement) return;
+
+            // Get the text content and convert HTML entities to plain text
+            let text = codeElement.innerHTML;
+
+            // Replace <br> with newlines
+            text = text.replace(/<br\s*\/?>/gi, '\n');
+
+            // Replace &nbsp; with spaces
+            text = text.replace(/&nbsp;/g, ' ');
+
+            // Remove any remaining HTML tags
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            text = tempDiv.textContent || tempDiv.innerText || '';
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(text).then(() => {
+                // Visual feedback
+                const copyText = button.querySelector('.copy-text');
+                const originalText = copyText.textContent;
+                copyText.textContent = 'Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    copyText.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code:', err);
+                alert('Failed to copy code. Please try again.');
+            });
+        }
+    </script>
+</body>
+
+</html>
