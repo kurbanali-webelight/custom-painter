@@ -108,8 +108,21 @@
             text-align: center;
         }
 
-        .toc-section li a .topic-text {
+        .toc-section li a {
             flex: 1;
+        }
+
+        .topic-text {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            font-size: 1.2em;
+        }
+
+        .topic-description {
+            font-size: 0.95em;
+            color: #adb5bd;
+            font-weight: normal;
         }
 
         .toc-section li a .topic-text strong {
@@ -288,6 +301,28 @@
                 font-size: 0.85em;
             }
         }
+        /* Sub-topic styling */
+        .sub-topics {
+            margin-left: 28px;
+            margin-top: 6px;
+            padding-left: 0;
+        }
+
+        .sub-topics li a {
+            font-size: 0.85em;
+            padding: 4px 8px;
+            color: #6c757d;
+        }
+
+        .sub-topics li a:hover {
+            background-color: #f1f3f5;
+            color: #1a73e8;
+        }
+
+        .sub-topic-dot {
+            font-size: 0.8em;
+            color: #adb5bd;
+        }
     </style>
 </head>
 
@@ -305,33 +340,61 @@
 
             <div class="toc-section">
                 <ul>
+
                     <li>
                         <a href="basics/what-is-custom-painter.html">
                             <span class="topic-emoji">🎯</span>
-                            <span class="topic-text">
-                                <strong>What is Custom Painter?</strong>
+                            <span>
+                                <strong class="topic-text">What is Custom Painter?</strong>
+                                <small class="topic-description">
+                                    Understand what CustomPainter is, why it exists, when to use it, 
+                                    and when standard widgets are a better choice.
+                                </small>
                             </span>
                         </a>
                     </li>
+
                     <li>
                         <a href="basics/custompaint-widget.html">
                             <span class="topic-emoji">⚙️</span>
-                            <span class="topic-text">
-                                <strong>CustomPaint Widget</strong>
+                            <span>
+                                <strong class="topic-text">CustomPaint Widget</strong>
+                                <small class="topic-description">
+                                    Learn how CustomPaint works in the widget tree, its properties,
+                                    rendering order, and performance-related flags.
+                                </small>
                             </span>
                         </a>
                     </li>
+
                     <li>
                         <a href="basics/custompainter-class.html">
                             <span class="topic-emoji">🖌️</span>
-                            <span class="topic-text">
-                                <strong>CustomPainter Class</strong>
+                            <span>
+                                <strong class="topic-text">CustomPainter Class</strong>
+                                <small class="topic-description">
+                                    Deep dive into the CustomPainter override methods like paint method,
+                                    shouldRepaint method, and repaint optimization techniques.
+                                </small>
                             </span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="basics/canvas-drawing-apis.html">
+                            <span class="topic-emoji">⏺️</span>
+                            <span>
+                                <strong class="topic-text">Canvas Drawing APIs & Basic Shapes</strong>
+                                <small class="topic-description">
+                                    Explore Canvas drawing methods like lines, circles, rectangles,
+                                    paths, paints, strokes, and fill styles.
+                                </small>
+                            </span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
-
 
         </div>
 
