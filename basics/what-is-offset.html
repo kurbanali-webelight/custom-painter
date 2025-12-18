@@ -125,7 +125,6 @@
             background-color: #f4f4f4;
             padding: 20px;
             border-radius: 5px;
-            margin: 20px 0;
             overflow-x: auto;
             border-left: 4px solid #1a73e8;
             position: relative;
@@ -194,6 +193,36 @@
             border-radius: 4px;
         }
 
+        .property-layout {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+
+        .property-code {
+            flex: 1.5;
+            min-width: 0;
+        }
+
+        .property-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .property-image img {
+            max-width: 70%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .image-caption {
+            margin-top: 8px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
         hr {
             border: none;
             border-top: 2px solid #e8f0fe;
@@ -256,6 +285,45 @@
         .back-to-top:hover {
             background-color: #1557b0;
             transform: translateY(-2px);
+        }
+
+        .example-images {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .example-item img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-item .image-caption {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        @media (max-width: 900px) {
+            .property-layout {
+                flex-direction: column;
+            }
+
+            .property-image {
+                margin-top: -10px;
+            }
         }
     </style>
 </head>
@@ -321,27 +389,41 @@ class Offset {<br>
                 <li>Can be positive, negative, or zero</li>
             </ul>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final point = Offset(100, 50);<br>
-<br>
-&nbsp;&nbsp;// Access individual components<br>
-&nbsp;&nbsp;print('X position: ${point.dx}'); // 100.0<br>
-&nbsp;&nbsp;print('Y position: ${point.dy}'); // 50.0<br>
-<br>
-&nbsp;&nbsp;// Use in drawing<br>
-&nbsp;&nbsp;canvas.drawCircle(point, 30, Paint()..color = Colors.blue);<br>
-<br>
-&nbsp;&nbsp;// Create offset from size (center of canvas)<br>
-&nbsp;&nbsp;final center = Offset(size.width / 2, size.height / 2);<br>
-&nbsp;&nbsp;canvas.drawCircle(center, 40, Paint()..color = Colors.red);<br>
-}<br>
-                </code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <pre><code class="language-dart">
+@override
+void paint(Canvas canvas, Size size) {
+  final point = Offset(100, 50);
+
+  // Access individual components
+  debugPrint('X position: ${point.dx}'); // 100.0
+  debugPrint('Y position: ${point.dy}'); // 50.0
+
+  // Use in drawing
+  canvas.drawCircle(point, 30, Paint()..color = Colors.blue);
+
+  // Create offset from size (center of canvas)
+  final center = Offset(size.width / 2, size.height / 2);
+  debugPrint('Center X position: ${center.dx}');
+  debugPrint('Center Y position: ${center.dy}');
+
+  canvas.drawCircle(center, 40, Paint()..color = Colors.red);
+}
+</code></pre>
+
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/dx_dy.png" alt="Flutter Offset dx and dy properties visual guide">
+                    <p class="image-caption">Visual guide showing how <code>dx</code> and <code>dy</code> represent
+                        horizontal and vertical positions in the coordinate system.</p>
+                </div>
             </div>
 
             <hr>
@@ -349,28 +431,43 @@ void paint(Canvas canvas, Size size) {<br>
             <h3>Constructor: <code>Offset(dx, dy)</code></h3>
             <p><strong>Purpose:</strong> Creates an Offset with specific X and Y coordinates.</p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;// Create offset at position (100, 50)<br>
-&nbsp;&nbsp;final point1 = Offset(100, 50);<br>
-<br>
-&nbsp;&nbsp;// Create offset at top-left corner<br>
-&nbsp;&nbsp;final topLeft = Offset(0, 0);<br>
-<br>
-&nbsp;&nbsp;// Create offset at bottom-right corner<br>
-&nbsp;&nbsp;final bottomRight = Offset(size.width, size.height);<br>
-<br>
-&nbsp;&nbsp;// Draw circles at these positions<br>
-&nbsp;&nbsp;canvas.drawCircle(point1, 20, Paint()..color = Colors.blue);<br>
-&nbsp;&nbsp;canvas.drawCircle(topLeft, 15, Paint()..color = Colors.red);<br>
-&nbsp;&nbsp;canvas.drawCircle(bottomRight, 15, Paint()..color = Colors.green);<br>
-}<br>
-                </code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code class="language-dart">
+                        @override<br>
+                        &nbsp;&nbsp;void paint(Canvas canvas, Size size) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Create offset at position (100, 50)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;final point1 = Offset(100, 50);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Create offset at top-left corner<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;final topLeft = Offset(0, 0);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Create offset at bottom-right corner<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;final bottomRight = Offset(size.width, size.height);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Create offset at center<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;final center = Offset(size.width / 2, size.height / 2);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Draw circles at these positions<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(point1, 20, Paint()..color = Colors.blue);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(topLeft, 50, Paint()..color = Colors.red);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(bottomRight, 50, Paint()..color = Colors.green);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(center, 50, Paint()..color = Colors.yellow);<br>
+                        &nbsp;&nbsp;}<br>
+                        </code>
+
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/offset_constructor.png" alt="Flutter Offset constructor visual example">
+                    <p class="image-caption">Visual guide showing how to create <code>Offset</code> objects using the
+                        constructor with different coordinate values.</p>
+                </div>
             </div>
 
             <hr>
@@ -473,11 +570,13 @@ void paint(Canvas canvas, Size size) {<br>
             <p><strong>Type:</strong> <code>Offset scale(double scaleX, double scaleY)</code></p>
             <p><strong>Purpose:</strong> Returns a new Offset with scaled coordinates.</p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
 &nbsp;&nbsp;final original = Offset(50, 30);<br>
@@ -489,11 +588,19 @@ void paint(Canvas canvas, Size size) {<br>
 &nbsp;&nbsp;final horizontalScaled = original.scale(2.0, 1.0); // Offset(100, 30)<br>
 <br>
 &nbsp;&nbsp;// Draw original and scaled points<br>
-&nbsp;&nbsp;canvas.drawCircle(original, 5, Paint()..color = Colors.blue);<br>
-&nbsp;&nbsp;canvas.drawCircle(scaled, 5, Paint()..color = Colors.red);<br>
-&nbsp;&nbsp;canvas.drawCircle(horizontalScaled, 5, Paint()..color = Colors.green);<br>
+&nbsp;&nbsp;canvas.drawCircle(original, 10, Paint()..color = Colors.blue);<br>
+&nbsp;&nbsp;canvas.drawCircle(scaled, 10, Paint()..color = Colors.red);<br>
+&nbsp;&nbsp;canvas.drawCircle(horizontalScaled, 10, Paint()..color = Colors.green);<br>
 }<br>
-                </code>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/offset_scale.png" alt="Flutter Offset scale method visual example">
+                    <p class="image-caption">Visual guide showing how the <code>scale()</code> method transforms offset
+                        coordinates.</p>
+                </div>
             </div>
 
             <hr>
@@ -502,11 +609,13 @@ void paint(Canvas canvas, Size size) {<br>
             <p><strong>Type:</strong> <code>Offset translate(double translateX, double translateY)</code></p>
             <p><strong>Purpose:</strong> Returns a new Offset moved by the given amounts.</p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
 &nbsp;&nbsp;final start = Offset(50, 50);<br>
@@ -515,7 +624,7 @@ void paint(Canvas canvas, Size size) {<br>
 &nbsp;&nbsp;final moved = start.translate(100, 30); // Offset(150, 80)<br>
 <br>
 &nbsp;&nbsp;// Move only horizontally<br>
-&nbsp;&nbsp;final right = start.translate(50, 0); // Offset(100, 50)<br>
+&nbsp;&nbsp;// final right = start.translate(50, 0); // Offset(100, 50)<br>
 <br>
 &nbsp;&nbsp;// Draw a path showing the movement<br>
 &nbsp;&nbsp;final path = Path()<br>
@@ -524,15 +633,24 @@ void paint(Canvas canvas, Size size) {<br>
 <br>
 &nbsp;&nbsp;canvas.drawPath(<br>
 &nbsp;&nbsp;&nbsp;&nbsp;path,<br>
+<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
 &nbsp;&nbsp;);<br>
 <br>
-&nbsp;&nbsp;canvas.drawCircle(start, 8, Paint()..color = Colors.red);<br>
-&nbsp;&nbsp;canvas.drawCircle(moved, 8, Paint()..color = Colors.green);<br>
+&nbsp;&nbsp;canvas.drawCircle(start, 18, Paint()..color = Colors.red);<br>
+&nbsp;&nbsp;canvas.drawCircle(moved, 18, Paint()..color = Colors.green);<br>
 }<br>
-                </code>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/offset_translate.png" alt="Flutter Offset translate method visual example">
+                    <p class="image-caption">Visual guide showing how the <code>translate()</code> method moves offset
+                        coordinates.</p>
+                </div>
             </div>
 
             <hr>
@@ -821,6 +939,20 @@ void paint(Canvas canvas, Size size) {<br>
                 <strong>✅ Key Takeaway:</strong> <strong>Offset</strong> is fundamental to CustomPainter - it's used in
                 almost every drawing operation to specify positions. Understanding how to create, manipulate, and
                 calculate with offsets is essential for creating responsive and dynamic custom graphics in Flutter.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🖼️ Visual Guide</h2>
+            <p>
+                Here is a comprehensive visual guide to the Offset class:
+            </p>
+
+            <div class="example-images">
+                <div class="example-item">
+                    <img src="../assets/offset-infographics.png" alt="Flutter Offset Class Complete Visual Guide">
+                    <p class="image-caption">Complete Visual Guide to Flutter's Offset Class</p>
+                </div>
             </div>
         </section>
     </div>
