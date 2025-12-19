@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛤️ What is Path? - Custom Painter Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #e8f0fe;
+            transform: translateX(-3px);
+        }
+
+        .section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #1a73e8;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-button:hover {
+            background-color: #1557b0;
+            transform: translateY(-1px);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button.copied {
+            background-color: #28a745;
+        }
+
+        .code-block code {
+            color: #2c3e50;
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .property-layout {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+
+        .property-code {
+            flex: 1.5;
+            min-width: 0;
+        }
+
+        .property-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .property-image img {
+            max-width: 70%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .image-caption {
+            margin-top: 8px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e8f0fe;
+            margin: 30px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+        }
+
+        .example-images {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .example-item img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-item .image-caption {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        @media (max-width: 900px) {
+            .property-layout {
+                flex-direction: column;
+            }
+
+            .property-image {
+                margin-top: -10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🛤️ What is Path?</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Topics</a>
+
+        <section class="section">
+            <h2>📚 What is Path?</h2>
+            <p>
+                <strong>Path</strong> is a class in Flutter (from <code>dart:ui</code>) that represents a
+                <strong>sequence of connected lines and curves</strong> that form a shape. It's the foundation for
+                drawing custom, complex shapes that can't be created with simple primitives like circles or rectangles.
+            </p>
+            <p><strong>Think of Path as:</strong></p>
+            <ul>
+                <li>A <strong>drawing tool</strong> that lets you create any shape by connecting points with lines and
+                    curves</li>
+                <li>A <strong>vector path</strong> similar to SVG paths or pen tools in design software</li>
+                <li>A <strong>blueprint</strong> for complex shapes that you can fill, stroke, or use for clipping</li>
+                <li>A <strong>sequence of drawing commands</strong> that define how to move and draw on the canvas</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Key Concept:</strong> Path is used with <code>canvas.drawPath(path, paint)</code> to render
+                custom shapes. You build the path step by step using methods like <code>moveTo()</code>,
+                <code>lineTo()</code>, <code>quadraticBezierTo()</code>, etc., then draw it once.
+            </div>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li><strong>Custom shapes:</strong> Stars, polygons, arrows, badges</li>
+                <li><strong>Curved designs:</strong> Waves, hearts, organic shapes</li>
+                <li><strong>Complex graphics:</strong> Logos, icons, decorative elements</li>
+                <li><strong>Clipping regions:</strong> Mask areas for images or other content</li>
+                <li><strong>Hit testing:</strong> Check if a point is inside a custom shape</li>
+                <li><strong>Animations:</strong> Morphing between shapes, path animations</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Essential Path Methods</h2>
+
+            <h3><code>moveTo(double x, double y)</code></h3>
+            <p><strong>Purpose:</strong> Move the "pen" to a specific point without drawing. This sets the starting
+                point for the next drawing operation.</p>
+            <p><strong>Common uses:</strong> Starting a new path segment, jumping to a different location before
+                drawing.</p>
+            <p><strong>Think of it as:</strong></p>
+            <ul>
+                <li>A painter lifting off his hand from the paper and placing it at a new position</li>
+                <li>A pencil lifting off the paper and moving to a new position</li>
+            </ul>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+<br>
+&nbsp;&nbsp;// Move to starting point (no line drawn)<br>
+&nbsp;&nbsp;path.moveTo(50, 50);<br>
+}<br>
+                </code>
+            </div>
+
+            <h3><code>lineTo(double x, double y)</code></h3>
+            <p><strong>Purpose:</strong> Draw a straight line from the current point to the specified point.</p>
+            <p><strong>Common uses:</strong> Creating polygons, connecting points, drawing straight edges.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
+<br>
+&nbsp;&nbsp;// Draw a triangle<br>
+&nbsp;&nbsp;path.moveTo(100, 50); // Top point<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(100, 50), 5, Paint()..color = Colors.red.withAlpha(180));<br>
+&nbsp;&nbsp;path.lineTo(50, 150); // Bottom left<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(50, 150), 10, Paint()..color = Colors.red.withAlpha(180));<br>
+&nbsp;&nbsp;path.lineTo(150, 150); // Bottom right<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(150, 150), 15, Paint()..color = Colors.red.withAlpha(180));<br>
+&nbsp;&nbsp;path.close(); // Close back to start<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/lineto_method.png" alt="Flutter Path lineTo visual example">
+                    <p class="image-caption">Visual guide showing how <code>lineTo()</code> draws straight lines
+                        connecting points. additionally, we are drawing circles at each point to help visualize the
+                        path from the starting point, the path it follows and to the end point.</p>
+                </div>
+            </div>
+
+            <h3><code>quadraticBezierTo(double x1, double y1, double x2, double y2)</code></h3>
+            <p><strong>Purpose:</strong> Draw a quadratic Bezier curve using one control point.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>x1, y1</code> - Control point (influences the curve shape)</li>
+                <li><code>x2, y2</code> - End point</li>
+            </ul>
+            <p><strong>Common uses:</strong> Smooth curves, rounded corners, organic shapes.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
+<br>
+&nbsp;&nbsp;// Start point (Green circle)<br>
+&nbsp;&nbsp;path.moveTo(50, 100);<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(50, 100), 8, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill);<br>
+&nbsp;&nbsp;canvas.drawCircle(Offset(50, 100), 8, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2);<br>
+<br>
+&nbsp;&nbsp;// Control point (Red circle)<br>
+&nbsp;&nbsp;final controlPoint = Offset(100, 20);<br>
+&nbsp;&nbsp;canvas.drawCircle(controlPoint, 8, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill);<br>
+&nbsp;&nbsp;canvas.drawCircle(controlPoint, 8, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2);<br>
+<br>
+&nbsp;&nbsp;// End point (Orange circle)<br>
+&nbsp;&nbsp;final endPoint = Offset(150, 100);<br>
+&nbsp;&nbsp;canvas.drawCircle(endPoint, 8, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.orange<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill);<br>
+&nbsp;&nbsp;canvas.drawCircle(endPoint, 8, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2);<br>
+<br>
+&nbsp;&nbsp;// Helper lines (grey dashed) - from start to control, control to end<br>
+&nbsp;&nbsp;canvas.drawLine(Offset(50, 100), controlPoint, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey.withAlpha(128)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1);<br>
+&nbsp;&nbsp;canvas.drawLine(controlPoint, endPoint, Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey.withAlpha(128)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1);<br>
+<br>
+&nbsp;&nbsp;// Quadratic Bezier curve<br>
+&nbsp;&nbsp;path.quadraticBezierTo(controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/quadratic_bezier_to_method.png"
+                        alt="Flutter Path quadraticBezierTo visual example">
+                    <p class="image-caption">Visual guide showing how <code>quadraticBezierTo()</code> creates smooth
+                        curves with one control point. Added reference points to visualize the path:
+                        <strong>Green</strong> circle indicates the start point (where the path begins),
+                        <strong>Red</strong> circle shows the control point (influences the curve), and
+                        <strong>Orange</strong> circle marks the end point (where the curve ends). Each point has a
+                        white border for visibility. Helper lines (grey) connect the start point to the control point
+                        and the control point to the end point, showing how the control point influences the curve
+                        shape.
+                    </p>
+                </div>
+            </div>
+
+            <h3><code>cubicTo(double x1, double y1, double x2, double y2, double x3, double y3)</code></h3>
+            <p><strong>Purpose:</strong> Draw a cubic Bezier curve using two control points for more complex curves.
+            </p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>x1, y1</code> - First control point</li>
+                <li><code>x2, y2</code> - Second control point</li>
+                <li><code>x3, y3</code> - End point</li>
+            </ul>
+            <p><strong>Common uses:</strong> Complex curves, S-shapes, wave patterns, smooth transitions.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Define points for cubic Bezier curve<br>
+&nbsp;&nbsp;const startPoint = Offset(50, 150);<br>
+&nbsp;&nbsp;const controlPoint1 = Offset(100, 20); // First control point<br>
+&nbsp;&nbsp;const controlPoint2 = Offset(200, 300); // Second control point<br>
+&nbsp;&nbsp;const endPoint = Offset(250, 150);<br>
+<br>
+&nbsp;&nbsp;// Draw the cubic Bezier curve<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3;<br>
+<br>
+&nbsp;&nbsp;path.moveTo(startPoint.dx, startPoint.dy);<br>
+&nbsp;&nbsp;// cubicTo takes: control1.x, control1.y, control2.x, control2.y, end.x, end.y<br>
+&nbsp;&nbsp;path.cubicTo(controlPoint1.dx, controlPoint1.dy, controlPoint2.dx, controlPoint2.dy, endPoint.dx, endPoint.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+<br>
+&nbsp;&nbsp;// Draw reference lines (dashed) to show control points' influence<br>
+&nbsp;&nbsp;final dashedLinePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey.withValues(alpha: 0.5)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1;<br>
+<br>
+&nbsp;&nbsp;// Line from start to first control point<br>
+&nbsp;&nbsp;final helperPath1 = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(startPoint.dx, startPoint.dy)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(controlPoint1.dx, controlPoint1.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(helperPath1, dashedLinePaint);<br>
+<br>
+&nbsp;&nbsp;// Line from first control point to second control point<br>
+&nbsp;&nbsp;final helperPath2 = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(controlPoint1.dx, controlPoint1.dy)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(controlPoint2.dx, controlPoint2.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(helperPath2, dashedLinePaint);<br>
+<br>
+&nbsp;&nbsp;// Line from second control point to end point<br>
+&nbsp;&nbsp;final helperPath3 = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(controlPoint2.dx, controlPoint2.dy)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(endPoint.dx, endPoint.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(helperPath3, dashedLinePaint);<br>
+<br>
+&nbsp;&nbsp;// Draw reference points with different colors<br>
+&nbsp;&nbsp;// Start point (green)<br>
+&nbsp;&nbsp;final startPointPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(startPoint, 6, startPointPaint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;startPoint,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// First control point (red)<br>
+&nbsp;&nbsp;final controlPoint1Paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(controlPoint1, 6, controlPoint1Paint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;controlPoint1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Second control point (purple)<br>
+&nbsp;&nbsp;final controlPoint2Paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.purple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(controlPoint2, 6, controlPoint2Paint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;controlPoint2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// End point (orange)<br>
+&nbsp;&nbsp;final endPointPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.orange<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(endPoint, 6, endPointPaint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;endPoint,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/cubic_to_method.png" alt="Flutter Path cubicTo visual example">
+                    <p class="image-caption">Visual guide showing how <code>cubicTo()</code> creates complex curves with
+                        two control points. Added reference points to visualize the path: <strong>Green</strong> circle
+                        indicates the start point, <strong>Red</strong> circle shows the first control point,
+                        <strong>Purple</strong> circle shows the second control point, and <strong>Orange</strong>
+                        circle marks the end point. Helper lines (grey)
+                        connect start→control1, control1→control2, and control2→end, showing how both control points
+                        influence the curve shape.
+                    </p>
+                </div>
+            </div>
+
+            <h3><code>addRect(Rect rect)</code></h3>
+            <p><strong>Purpose:</strong> Add a rectangle to the path as a closed contour.</p>
+            <p><strong>Common uses:</strong> Combining rectangles with other shapes, creating complex paths from simple
+                shapes.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;// Add a rectangle to the path<br>
+&nbsp;&nbsp;path.addRect(Rect.fromLTWH(50, 50, 100, 80));<br>
+<br>
+&nbsp;&nbsp;// Add another rectangle<br>
+&nbsp;&nbsp;path.addRect(Rect.fromLTWH(200, 50, 100, 80));<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/path_add_rect.png" alt="Flutter Path addRect visual example">
+                    <p class="image-caption">Visual guide showing how <code>addRect()</code> adds rectangles to the
+                        path.
+                    </p>
+                </div>
+            </div>
+
+            <h3><code>addOval(Rect rect)</code></h3>
+            <p><strong>Purpose:</strong> Add an oval (ellipse) to the path. The rect defines the bounding box of the
+                oval.</p>
+            <p><strong>Common uses:</strong> Adding circles and ellipses to paths, creating rounded shapes.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;// Add an oval (circle when width == height)<br>
+&nbsp;&nbsp;path.addOval(Rect.fromLTWH(50, 50, 100, 100));<br>
+<br>
+&nbsp;&nbsp;// Add an ellipse<br>
+&nbsp;&nbsp;path.addOval(Rect.fromLTWH(200, 50, 150, 80));<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/path_add_oval.png" alt="Flutter Path addOval visual example">
+                    <p class="image-caption">Visual guide showing how <code>addOval()</code> adds ovals and ellipses to
+                        the path.</p>
+                </div>
+            </div>
+
+            <h3><code>close()</code></h3>
+            <p><strong>Purpose:</strong> Close the current contour by drawing a line from the current point back to the
+                starting point.</p>
+            <p><strong>Common uses:</strong> Closing polygons, creating filled shapes, ensuring paths are complete.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;// Draw a pentagon<br>
+&nbsp;&nbsp;final center = Offset(size.width / 2, size.height / 2);<br>
+&nbsp;&nbsp;final radius = 60.0;<br>
+<br>
+&nbsp;&nbsp;for (int i = 0; i < 5; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final angle = (i * 2 * 3.14159) / 5 - 3.14159 / 2;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final x = center.dx + radius * cos(angle);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final y = center.dy + radius * sin(angle);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (i == 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.moveTo(x, y);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.lineTo(x, y);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;path.close(); // Close the pentagon<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/path_close.png" alt="Flutter Path close visual example">
+                    <p class="image-caption">Visual guide showing how <code>close()</code> connects the last point back
+                        to the starting point.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔧 Other Important Methods</h2>
+
+            <h3><code>relativeLineTo(double dx, double dy)</code></h3>
+            <p><strong>Purpose:</strong> Draw a line relative to the current point (adds dx, dy to current position).
+            </p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.moveTo(50, 50);<br>
+path.relativeLineTo(100, 0);  // Move 100 right from current point<br>
+path.relativeLineTo(0, 50);   // Move 50 down from current point<br>
+                </code>
+            </div>
+
+            <h3><code>addRRect(RRect rrect)</code></h3>
+            <p><strong>Purpose:</strong> Add a rounded rectangle to the path.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.addRRect(RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;Rect.fromLTWH(50, 50, 100, 80),<br>
+&nbsp;&nbsp;Radius.circular(10),<br>
+));<br>
+                </code>
+            </div>
+
+            <h3><code>addPolygon(List&lt;Offset&gt; points, bool close)</code></h3>
+            <p><strong>Purpose:</strong> Add a polygon from a list of points. If <code>close</code> is true, connects
+                the last point to the first.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.addPolygon([<br>
+&nbsp;&nbsp;Offset(50, 50),<br>
+&nbsp;&nbsp;Offset(150, 50),<br>
+&nbsp;&nbsp;Offset(150, 150),<br>
+&nbsp;&nbsp;Offset(50, 150),<br>
+], true); // true = close the polygon<br>
+                </code>
+            </div>
+
+            <h3><code>addPath(Path path, Offset offset)</code></h3>
+            <p><strong>Purpose:</strong> Add another path to this path, optionally offset by the given offset.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path1 = Path();<br>
+path1.addRect(Rect.fromLTWH(0, 0, 50, 50));<br>
+<br>
+final path2 = Path();<br>
+path2.addPath(path1, Offset(100, 100)); // Add path1 at offset<br>
+                </code>
+            </div>
+
+            <h3><code>reset()</code></h3>
+            <p><strong>Purpose:</strong> Clear all path data, resetting it to an empty path.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.moveTo(50, 50);<br>
+path.lineTo(100, 100);<br>
+path.reset(); // Path is now empty<br>
+                </code>
+            </div>
+
+            <h3><code>shift(Offset offset)</code></h3>
+            <p><strong>Purpose:</strong> Move the entire path by the given offset.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.addRect(Rect.fromLTWH(0, 0, 50, 50));<br>
+path.shift(Offset(100, 100)); // Move path 100 right, 100 down<br>
+                </code>
+            </div>
+
+            <h3><code>contains(Offset point)</code></h3>
+            <p><strong>Purpose:</strong> Check if a point is inside the path (hit testing).</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.addRect(Rect.fromLTWH(50, 50, 100, 100));<br>
+<br>
+final point = Offset(75, 75);<br>
+if (path.contains(point)) {<br>
+&nbsp;&nbsp;// Point is inside the path<br>
+}<br>
+                </code>
+            </div>
+
+            <h3><code>arcTo(Rect rect, double startAngle, double sweepAngle, bool forceMoveTo)</code></h3>
+            <p><strong>Purpose:</strong> Add an arc to the path. The arc is part of an oval defined by the rect.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.arcTo(<br>
+&nbsp;&nbsp;Rect.fromLTWH(50, 50, 100, 100),<br>
+&nbsp;&nbsp;0,        // Start angle in radians<br>
+&nbsp;&nbsp;3.14159,  // Sweep angle (half circle)<br>
+&nbsp;&nbsp;false,    // Don't force moveTo<br>
+);<br>
+                </code>
+            </div>
+
+            <h3><code>arcToPoint(Offset endRadius, {Radius radius, double rotation, bool largeArc, bool clockwise})</code>
+            </h3>
+            <p><strong>Purpose:</strong> Add an arc from the current point to a target point.</p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final path = Path();<br>
+path.moveTo(50, 100);<br>
+path.arcToPoint(<br>
+&nbsp;&nbsp;Offset(150, 100),<br>
+&nbsp;&nbsp;radius: Radius.circular(50),<br>
+&nbsp;&nbsp;largeArc: false,<br>
+&nbsp;&nbsp;clockwise: true,<br>
+);<br>
+                </code>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 Complete Path API Reference</h2>
+
+            <h3>Constructors</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Constructor</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Path()</code></td>
+                        <td>Create an empty path</td>
+                    </tr>
+                    <tr>
+                        <td><code>Path.from(Path source)</code></td>
+                        <td>Create a copy of another path</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Path Building Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>moveTo(double x, double y)</code></td>
+                        <td><code>double x, double y</code></td>
+                        <td>Move to point without drawing</td>
+                    </tr>
+                    <tr>
+                        <td><code>lineTo(double x, double y)</code></td>
+                        <td><code>double x, double y</code></td>
+                        <td>Draw line to point</td>
+                    </tr>
+                    <tr>
+                        <td><code>relativeMoveTo(double dx, double dy)</code></td>
+                        <td><code>double dx, double dy</code></td>
+                        <td>Move relative to current point</td>
+                    </tr>
+                    <tr>
+                        <td><code>relativeLineTo(double dx, double dy)</code></td>
+                        <td><code>double dx, double dy</code></td>
+                        <td>Draw line relative to current point</td>
+                    </tr>
+                    <tr>
+                        <td><code>quadraticBezierTo(double x1, double y1, double x2, double y2)</code></td>
+                        <td><code>double x1, y1, x2, y2</code></td>
+                        <td>Draw quadratic Bezier curve</td>
+                    </tr>
+                    <tr>
+                        <td><code>relativeQuadraticBezierTo(double x1, double y1, double x2, double y2)</code></td>
+                        <td><code>double x1, y1, x2, y2</code></td>
+                        <td>Draw quadratic Bezier curve relative to current point</td>
+                    </tr>
+                    <tr>
+                        <td><code>cubicTo(double x1, double y1, double x2, double y2, double x3, double y3)</code></td>
+                        <td><code>double x1, y1, x2, y2, x3, y3</code></td>
+                        <td>Draw cubic Bezier curve</td>
+                    </tr>
+                    <tr>
+                        <td><code>relativeCubicTo(double x1, double y1, double x2, double y2, double x3, double y3)</code>
+                        </td>
+                        <td><code>double x1, y1, x2, y2, x3, y3</code></td>
+                        <td>Draw cubic Bezier curve relative to current point</td>
+                    </tr>
+                    <tr>
+                        <td><code>arcTo(Rect rect, double startAngle, double sweepAngle, bool forceMoveTo)</code></td>
+                        <td><code>Rect, double, double, bool</code></td>
+                        <td>Add arc to path</td>
+                    </tr>
+                    <tr>
+                        <td><code>arcToPoint(Offset endRadius, {...})</code></td>
+                        <td><code>Offset, {Radius?, double?, bool?, bool?}</code></td>
+                        <td>Add arc from current point to target point</td>
+                    </tr>
+                    <tr>
+                        <td><code>conicTo(double x1, double y1, double x2, double y2, double w)</code></td>
+                        <td><code>double x1, y1, x2, y2, w</code></td>
+                        <td>Draw conic curve (rational quadratic Bezier)</td>
+                    </tr>
+                    <tr>
+                        <td><code>relativeConicTo(double x1, double y1, double x2, double y2, double w)</code></td>
+                        <td><code>double x1, y1, x2, y2, w</code></td>
+                        <td>Draw conic curve relative to current point</td>
+                    </tr>
+                    <tr>
+                        <td><code>close()</code></td>
+                        <td>–</td>
+                        <td>Close current contour</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Adding Shapes to Path</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>addRect(Rect rect)</code></td>
+                        <td><code>Rect rect</code></td>
+                        <td>Add rectangle to path</td>
+                    </tr>
+                    <tr>
+                        <td><code>addOval(Rect rect)</code></td>
+                        <td><code>Rect rect</code></td>
+                        <td>Add oval/ellipse to path</td>
+                    </tr>
+                    <tr>
+                        <td><code>addRRect(RRect rrect)</code></td>
+                        <td><code>RRect rrect</code></td>
+                        <td>Add rounded rectangle to path</td>
+                    </tr>
+                    <tr>
+                        <td><code>addPolygon(List&lt;Offset&gt; points, bool close)</code></td>
+                        <td><code>List&lt;Offset&gt;, bool</code></td>
+                        <td>Add polygon from points</td>
+                    </tr>
+                    <tr>
+                        <td><code>addPath(Path path, Offset offset)</code></td>
+                        <td><code>Path, Offset</code></td>
+                        <td>Add another path to this path</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Path Operations</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>reset()</code></td>
+                        <td>–</td>
+                        <td><code>void</code></td>
+                        <td>Clear all path data</td>
+                    </tr>
+                    <tr>
+                        <td><code>shift(Offset offset)</code></td>
+                        <td><code>Offset offset</code></td>
+                        <td><code>void</code></td>
+                        <td>Move path by offset</td>
+                    </tr>
+                    <tr>
+                        <td><code>transform(Matrix4 matrix)</code></td>
+                        <td><code>Matrix4 matrix</code></td>
+                        <td><code>void</code></td>
+                        <td>Apply matrix transformation</td>
+                    </tr>
+                    <tr>
+                        <td><code>contains(Offset point)</code></td>
+                        <td><code>Offset point</code></td>
+                        <td><code>bool</code></td>
+                        <td>Check if point is inside path</td>
+                    </tr>
+                    <tr>
+                        <td><code>getBounds()</code></td>
+                        <td>–</td>
+                        <td><code>Rect</code></td>
+                        <td>Get bounding rectangle of path</td>
+                    </tr>
+                    <tr>
+                        <td><code>computeMetrics()</code></td>
+                        <td>–</td>
+                        <td><code>PathMetrics</code></td>
+                        <td>Get path measurements</td>
+                    </tr>
+                    <tr>
+                        <td><code>toSvgPathData()</code></td>
+                        <td>–</td>
+                        <td><code>String</code></td>
+                        <td>Convert path to SVG path data string</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Properties</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>fillType</code></td>
+                        <td><code>PathFillType</code></td>
+                        <td>How to fill the path (winding or even-odd)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>🖼️ Visual Guide</h2>
+            <p>
+                Here is a comprehensive visual guide to the Path class:
+            </p>
+
+            <div class="example-images">
+                <div class="example-item">
+                    <img src="../assets/path-infographics.png" alt="Flutter Path Class Complete Visual Guide">
+                    <p class="image-caption">Complete Visual Guide to Flutter's Path Class</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+    </button>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                button.classList.add('copied');
+                const originalText = button.querySelector('.copy-text').textContent;
+                button.querySelector('.copy-text').textContent = 'Copied!';
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.querySelector('.copy-text').textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>
