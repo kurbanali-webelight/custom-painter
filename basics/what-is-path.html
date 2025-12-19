@@ -755,39 +755,109 @@ void paint(Canvas canvas, Size size) {<br>
                         <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// Define points for a triangle/polygon<br>
+&nbsp;&nbsp;const startPoint = Offset(150, 50); // Top point<br>
+&nbsp;&nbsp;const point2 = Offset(50, 200); // Bottom left<br>
+&nbsp;&nbsp;const point3 = Offset(250, 200); // Bottom right<br>
+<br>
+&nbsp;&nbsp;// Create path and draw lines<br>
 &nbsp;&nbsp;final path = Path();<br>
 &nbsp;&nbsp;final paint = Paint()<br>
 &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3;<br>
 <br>
-&nbsp;&nbsp;// Draw a pentagon<br>
-&nbsp;&nbsp;final center = Offset(size.width / 2, size.height / 2);<br>
-&nbsp;&nbsp;final radius = 60.0;<br>
-<br>
-&nbsp;&nbsp;for (int i = 0; i < 5; i++) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;final angle = (i * 2 * 3.14159) / 5 - 3.14159 / 2;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;final x = center.dx + radius * cos(angle);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;final y = center.dy + radius * sin(angle);<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if (i == 0) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.moveTo(x, y);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.lineTo(x, y);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-&nbsp;&nbsp;}<br>
-<br>
-&nbsp;&nbsp;path.close(); // Close the pentagon<br>
+&nbsp;&nbsp;path.moveTo(startPoint.dx, startPoint.dy);<br>
+&nbsp;&nbsp;path.lineTo(point2.dx, point2.dy);<br>
+&nbsp;&nbsp;path.lineTo(point3.dx, point3.dy);<br>
+&nbsp;&nbsp;path.close(); // Closes the path by drawing a line back to startPoint<br>
 <br>
 &nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+<br>
+&nbsp;&nbsp;// Draw reference lines to show the path structure<br>
+&nbsp;&nbsp;final dashedLinePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey.withValues(alpha: 0.5)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1;<br>
+<br>
+&nbsp;&nbsp;// Line from start to point2<br>
+&nbsp;&nbsp;final line1 = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(startPoint.dx, startPoint.dy)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(point2.dx, point2.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(line1, dashedLinePaint);<br>
+<br>
+&nbsp;&nbsp;// Line from point2 to point3<br>
+&nbsp;&nbsp;final line2 = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(point2.dx, point2.dy)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(point3.dx, point3.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(line2, dashedLinePaint);<br>
+<br>
+&nbsp;&nbsp;// Highlight the closing line (from point3 back to start) with a different color<br>
+&nbsp;&nbsp;final closingLinePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
+&nbsp;&nbsp;final closingLine = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(point3.dx, point3.dy)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(startPoint.dx, startPoint.dy);<br>
+&nbsp;&nbsp;canvas.drawPath(closingLine, closingLinePaint);<br>
+<br>
+&nbsp;&nbsp;// Draw reference points at all vertices<br>
+&nbsp;&nbsp;// Start point (green) - also the closing point<br>
+&nbsp;&nbsp;final startPointPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(startPoint, 6, startPointPaint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;startPoint,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Point 2 (red)<br>
+&nbsp;&nbsp;final point2Paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(point2, 6, point2Paint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;point2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Point 3 (purple)<br>
+&nbsp;&nbsp;final point3Paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.purple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;canvas.drawCircle(point3, 6, point3Paint);<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;point3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
 }<br>
                         </code>
                     </div>
                 </div>
 
                 <div class="property-image">
-                    <img src="../assets/path_close.png" alt="Flutter Path close visual example">
+                    <img src="../assets/close_method.png" alt="Flutter Path close visual example">
                     <p class="image-caption">Visual guide showing how <code>close()</code> connects the last point back
-                        to the starting point.</p>
+                        to the starting point. Added reference points to visualize the path: <strong>Green</strong>
+                        circle indicates the start point (also the closing point), <strong>Red</strong> circle shows
+                        point 2, and <strong>Purple</strong> circle shows point 3. Each point has a white border for
+                        visibility. Helper lines (grey) show the path structure, and the <strong>red line</strong>
+                        highlights the closing line that <code>close()</code> automatically draws from the last point
+                        back to the start point.</p>
                 </div>
             </div>
         </section>
