@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Path Operations - Custom Painter Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #e8f0fe;
+            transform: translateX(-3px);
+        }
+
+        .section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #1a73e8;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-button:hover {
+            background-color: #1557b0;
+            transform: translateY(-1px);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button.copied {
+            background-color: #28a745;
+        }
+
+        .code-block code {
+            color: #2c3e50;
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .property-layout {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+            gap: 20px;
+        }
+
+        .property-code {
+            flex: 1.5;
+            min-width: 0;
+        }
+
+        .property-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .property-image img {
+            max-width: 70%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .image-caption {
+            margin-top: 8px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 900px) {
+            .property-layout {
+                flex-direction: column;
+            }
+
+            .property-image {
+                margin-top: -10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🔧 Path Operations</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Topics</a>
+
+        <section class="section">
+            <h2>📚 Overview</h2>
+            <p>
+                Path Operations are methods that manipulate and analyze existing paths. These operations allow you to
+                modify paths after they've been created, check properties, and perform transformations.
+            </p>
+            <p><strong>Path Operations Categories:</strong></p>
+            <ul>
+                <li><strong>Path Manipulation:</strong> Methods to modify paths (close, reset, shift, transform)</li>
+                <li><strong>Path Analysis:</strong> Methods to check path properties (contains, getBounds)</li>
+                <li><strong>Path Metrics:</strong> Methods to measure paths (computeMetrics)</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🔧 Path Manipulation Methods</h2>
+
+            <h3><code>close()</code></h3>
+            <p><strong>Purpose:</strong> Close the current contour by drawing a line from the current point back to the
+                starting point.</p>
+            <p><strong>Common uses:</strong> Closing polygons, creating filled shapes, ensuring paths are complete.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final strokePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue;<br>
+<br>
+&nbsp;&nbsp;final fillPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue.withValues(alpha: 0.25);<br>
+<br>
+&nbsp;&nbsp;// Triangle WITHOUT close()<br>
+&nbsp;&nbsp;final openTriangle = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(80, 60)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(20, 160)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(140, 160);<br>
+&nbsp;&nbsp;// no close()<br>
+<br>
+&nbsp;&nbsp;// Triangle WITH close()<br>
+&nbsp;&nbsp;final closedTriangle = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(size.width - 80, 60)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(size.width - 140, 160)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(size.width - 20, 160)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..close(); // closes back to start<br>
+<br>
+&nbsp;&nbsp;// Draw open triangle<br>
+&nbsp;&nbsp;canvas.drawPath(openTriangle, fillPaint);<br>
+&nbsp;&nbsp;canvas.drawPath(openTriangle, strokePaint);<br>
+<br>
+&nbsp;&nbsp;// Draw closed triangle<br>
+&nbsp;&nbsp;canvas.drawPath(closedTriangle, fillPaint);<br>
+&nbsp;&nbsp;canvas.drawPath(closedTriangle, strokePaint);<br>
+<br>
+&nbsp;&nbsp;// Labels<br>
+&nbsp;&nbsp;_drawLabel(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Without close()',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;openTriangle.getBounds().bottomLeft.translate(0, 20),<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;_drawLabel(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'With close()',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closedTriangle.getBounds().bottomLeft.translate(0, 20),<br>
+&nbsp;&nbsp;);<br>
+}<br>
+<br>
+void _drawLabel(Canvas canvas, String text, Offset offset) {<br>
+&nbsp;&nbsp;final painter = TextPainter(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text: TextSpan(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text: text,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style: const TextStyle(color: Colors.white, fontSize: 14),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textDirection: TextDirection.ltr,<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;painter.layout();<br>
+&nbsp;&nbsp;painter.paint(canvas, offset);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/close-method-path-operation.png" alt="Flutter Path close visual example">
+                    <p class="image-caption">Visual comparison showing the difference between a path without
+                        <code>close()</code> (left triangle with missing bottom stroke) and a path with
+                        <code>close()</code> (right triangle with all three sides properly stroked). Both triangles are
+                        filled, but only the closed path has a complete stroke outline.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>close()</code> automatically draws a line from the current point to the first point of
+                        the current contour</li>
+                    <li>Essential for creating filled shapes - without <code>close()</code>, the path may not fill
+                        correctly</li>
+                    <li>Each <code>moveTo()</code> starts a new contour, so <code>close()</code> only closes the
+                        current one</li>
+                </ul>
+            </div>
+
+            <h3><code>reset()</code></h3>
+            <p><strong>Purpose:</strong> Clear all path data, resetting it to an empty path.</p>
+            <p><strong>Common uses:</strong> Reusing path objects, clearing paths before rebuilding, memory management.
+            </p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue;<br>
+<br>
+&nbsp;&nbsp;final path = Path();<br>
+<br>
+&nbsp;&nbsp;// 🔵 First shape: Triangle<br>
+&nbsp;&nbsp;path.moveTo(60, 60);<br>
+&nbsp;&nbsp;path.lineTo(20, 140);<br>
+&nbsp;&nbsp;path.lineTo(100, 140);<br>
+&nbsp;&nbsp;path.close();<br>
+<br>
+&nbsp;&nbsp;// canvas.drawPath(path, paint);<br>
+<br>
+&nbsp;&nbsp;// ❌ Clear everything from the path<br>
+&nbsp;&nbsp;path.reset();<br>
+<br>
+&nbsp;&nbsp;// 🟢 Second shape: Rectangle (same Path object reused)<br>
+&nbsp;&nbsp;path.addRect(Rect.fromLTWH(size.width - 140, 60, 100, 80));<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint..color = Colors.green);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/reset-method.png" alt="Flutter Path reset visual example">
+                    <p class="image-caption">Visual guide showing how <code>reset()</code> clears the path completely.
+                        The triangle that was added first is cleared, and only the green rectangle (added after reset)
+                        is
+                        drawn, demonstrating that the same Path object can be reused after reset.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>reset()</code> completely clears the path, making it empty</li>
+                    <li>Useful when you need to reuse a Path object for different shapes</li>
+                    <li>More memory-efficient than creating new Path objects repeatedly</li>
+                </ul>
+            </div>
+
+            <h3><code>shift(Offset offset)</code></h3>
+            <p><strong>Purpose:</strong> Move the entire path by the given offset.</p>
+            <p><strong>Common uses:</strong> Repositioning paths, creating patterns, translating shapes.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue;<br>
+<br>
+&nbsp;&nbsp;// Base house shape (defined at origin)<br>
+&nbsp;&nbsp;final housePath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(0, 40) // left roof<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(40, 0) // roof top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(80, 40) // right roof<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(80, 100) // right wall<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(0, 100) // left wall<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..close();<br>
+<br>
+&nbsp;&nbsp;// Draw original house<br>
+&nbsp;&nbsp;canvas.drawPath(housePath.shift(const Offset(60, 60)), paint);<br>
+<br>
+&nbsp;&nbsp;// Draw same house again at another position<br>
+&nbsp;&nbsp;canvas.drawPath(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;housePath.shift(const Offset(200, 60)),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paint..color = Colors.green,<br>
+&nbsp;&nbsp;);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/shift-method.png" alt="Flutter Path shift visual example">
+                    <p class="image-caption">Visual guide showing how <code>shift()</code> moves the entire path by the
+                        specified offset. The same house shape is drawn at two different positions (blue on left, green
+                        on right), demonstrating path reuse and repositioning.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>shift()</code> moves all points in the path by the same offset</li>
+                    <li>Useful for repositioning entire shapes without redrawing</li>
+                    <li>Can be used to create patterns by shifting and duplicating paths</li>
+                </ul>
+            </div>
+
+            <h3><code>transform(Matrix4 matrix)</code></h3>
+            <p><strong>Purpose:</strong> Apply a matrix transformation to the path (rotate, scale, translate, skew).</p>
+            <p><strong>Common uses:</strong> Rotating paths, scaling paths, applying complex transformations, creating
+                transformed copies.</p>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+            @override<br>
+            void paint(Canvas canvas, Size size) {<br>
+            &nbsp;&nbsp;final path = Path();<br>
+            &nbsp;&nbsp;path.addRect(Rect.fromLTWH(0, 0, 50, 50));<br>
+            <br>
+            &nbsp;&nbsp;// Create transformation matrix (rotate 45 degrees)<br>
+            &nbsp;&nbsp;final matrix = Matrix4.identity()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;..translate(100.0, 100.0) // Move to center<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;..rotateZ(0.785); // 45 degrees<br>
+            <br>
+            &nbsp;&nbsp;path.transform(matrix.storage);<br>
+            <br>
+            &nbsp;&nbsp;canvas.drawPath(path, Paint()..color = Colors.blue);<br>
+            }<br>
+                            </code>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>transform()</code> applies transformations directly to the path data</li>
+                    <li>Use <code>Matrix4</code> for complex transformations (rotate, scale, translate, skew)</li>
+                    <li>Transformations are applied in order: translate, then rotate, then scale</li>
+                    <li>Useful for creating rotated or scaled versions of paths</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔍 Path Analysis Methods</h2>
+
+            <h3><code>contains(Offset point)</code></h3>
+            <p><strong>Purpose:</strong> Check if a point is inside the path (hit testing).</p>
+            <p><strong>Common uses:</strong> Hit testing, interactive shapes, detecting taps/clicks, collision
+                detection.
+            </p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final pathPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue.withValues(alpha: 0.5);<br>
+<br>
+&nbsp;&nbsp;final strokePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue;<br>
+<br>
+&nbsp;&nbsp;// Create a triangle path<br>
+&nbsp;&nbsp;final trianglePath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(100, 50)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(50, 150)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(150, 150)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..close();<br>
+<br>
+&nbsp;&nbsp;// Draw the triangle<br>
+&nbsp;&nbsp;canvas.drawPath(trianglePath, pathPaint);<br>
+&nbsp;&nbsp;canvas.drawPath(trianglePath, strokePaint);<br>
+<br>
+&nbsp;&nbsp;// Test points<br>
+&nbsp;&nbsp;final testPoints = [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const Offset(100, 100), // Inside<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const Offset(200, 100), // Outside<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const Offset(65, 100), // Inside<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const Offset(50, 200), // Outside<br>
+&nbsp;&nbsp;];<br>
+<br>
+&nbsp;&nbsp;// Draw test points with different colors based on contains result<br>
+&nbsp;&nbsp;for (final point in testPoints) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final isInside = trianglePath.contains(point);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final pointPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = isInside ? Colors.green : Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(point, 8, pointPaint);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;}<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/contains-method.png" alt="Flutter Path contains visual example">
+                    <p class="image-caption">Visual guide showing how <code>contains()</code> checks if points are
+                        inside
+                        the path. The blue triangle represents the path, and test points are colored green (inside) or
+                        red
+                        (outside) based on the <code>contains()</code> result. Each point has a white stroke for
+                        visibility.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>contains()</code> uses the path's fill type to determine if a point is inside</li>
+                    <li>Works with complex paths, not just simple shapes</li>
+                    <li>Essential for creating interactive custom shapes</li>
+                    <li>Returns <code>true</code> if the point is inside the path, <code>false</code> otherwise</li>
+                </ul>
+            </div>
+
+            <h3><code>getBounds()</code></h3>
+            <p><strong>Purpose:</strong> Get the bounding rectangle that contains the entire path.</p>
+            <p><strong>Common uses:</strong> Calculating path dimensions, centering paths, layout calculations.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final pathPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue;<br>
+<br>
+&nbsp;&nbsp;// Create a curved path<br>
+&nbsp;&nbsp;final curvedPath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(80, 100)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..quadraticBezierTo(150, 20, 220, 100)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(220, 200)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(80, 200)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..close();<br>
+<br>
+&nbsp;&nbsp;// Draw the path<br>
+&nbsp;&nbsp;canvas.drawPath(curvedPath, pathPaint);<br>
+<br>
+&nbsp;&nbsp;// Get the bounding rectangle<br>
+&nbsp;&nbsp;final bounds = curvedPath.getBounds();<br>
+<br>
+&nbsp;&nbsp;// Draw the bounding rectangle<br>
+&nbsp;&nbsp;final boundsPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red;<br>
+<br>
+&nbsp;&nbsp;canvas.drawRect(bounds, boundsPaint);<br>
+<br>
+&nbsp;&nbsp;// Draw corner markers<br>
+&nbsp;&nbsp;final markerPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;canvas.drawCircle(bounds.topLeft, 6, markerPaint);<br>
+&nbsp;&nbsp;canvas.drawCircle(bounds.topRight, 6, markerPaint);<br>
+&nbsp;&nbsp;canvas.drawCircle(bounds.bottomLeft, 6, markerPaint);<br>
+&nbsp;&nbsp;canvas.drawCircle(bounds.bottomRight, 6, markerPaint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/get-bounds-method.png" alt="Flutter Path getBounds visual example">
+                    <p class="image-caption">Visual guide showing how <code>getBounds()</code> returns the smallest
+                        rectangle that contains all points in the path. The blue curved path is enclosed by a red
+                        bounding rectangle, with red circles marking the four corners of the bounds.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>getBounds()</code> returns the smallest rectangle that contains all points in the path
+                    </li>
+                    <li>Useful for centering paths or calculating layout dimensions</li>
+                    <li>The bounds include all contours in the path</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📏 Path Metrics</h2>
+
+            <h3><code>computeMetrics()</code></h3>
+            <p><strong>Purpose:</strong> Get measurements of path segments. Returns a <code>PathMetrics</code> object
+                that provides information about the path's length, contours, and segments.</p>
+            <p><strong>Common uses:</strong> Measuring path length, animating along paths, calculating distances,
+                analyzing path structure.</p>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+        @override<br>
+        void paint(Canvas canvas, Size size) {<br>
+        &nbsp;&nbsp;final path = Path();<br>
+        &nbsp;&nbsp;path.addRect(Rect.fromLTWH(50, 50, 100, 100));<br>
+        <br>
+        &nbsp;&nbsp;// Get path metrics<br>
+        &nbsp;&nbsp;final metrics = path.computeMetrics();<br>
+        &nbsp;&nbsp;final metric = metrics.first;<br>
+        <br>
+        &nbsp;&nbsp;// Get path length<br>
+        &nbsp;&nbsp;final length = metric.length;<br>
+        <br>
+        &nbsp;&nbsp;// Get point at specific distance along path<br>
+        &nbsp;&nbsp;final tangent = metric.getTangentForOffset(length / 2);<br>
+        &nbsp;&nbsp;if (tangent != null) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;final point = tangent.position;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Use point for drawing or calculations<br>
+        &nbsp;&nbsp;}<br>
+        <br>
+        &nbsp;&nbsp;canvas.drawPath(path, Paint()..color = Colors.blue);<br>
+        }<br>
+                        </code>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>computeMetrics()</code> returns an iterable of <code>PathMetric</code> objects</li>
+                    <li>Each <code>PathMetric</code> represents one contour in the path</li>
+                    <li>Use <code>metric.length</code> to get the total length of the contour</li>
+                    <li>Use <code>getTangentForOffset()</code> to get position and direction at a specific distance
+                    </li>
+                    <li>Essential for path animations and measurements</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 Complete Path Operations Reference</h2>
+
+            <h3>Path Manipulation Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>close()</code></td>
+                        <td>–</td>
+                        <td><code>void</code></td>
+                        <td>Close current contour</td>
+                    </tr>
+                    <tr>
+                        <td><code>reset()</code></td>
+                        <td>–</td>
+                        <td><code>void</code></td>
+                        <td>Clear all path data</td>
+                    </tr>
+                    <tr>
+                        <td><code>shift(Offset offset)</code></td>
+                        <td><code>Offset offset</code></td>
+                        <td><code>void</code></td>
+                        <td>Move path by offset</td>
+                    </tr>
+                    <tr>
+                        <td><code>transform(Matrix4 matrix)</code></td>
+                        <td><code>Matrix4 matrix</code></td>
+                        <td><code>void</code></td>
+                        <td>Apply matrix transformation</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Path Analysis Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>contains(Offset point)</code></td>
+                        <td><code>Offset point</code></td>
+                        <td><code>bool</code></td>
+                        <td>Check if point is inside path</td>
+                    </tr>
+                    <tr>
+                        <td><code>getBounds()</code></td>
+                        <td>–</td>
+                        <td><code>Rect</code></td>
+                        <td>Get bounding rectangle of path</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Path Metrics</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>computeMetrics()</code></td>
+                        <td>–</td>
+                        <td><code>PathMetrics</code></td>
+                        <td>Get path measurements</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+    </button>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                button.classList.add('copied');
+                const originalText = button.querySelector('.copy-text').textContent;
+                button.querySelector('.copy-text').textContent = 'Copied!';
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.querySelector('.copy-text').textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>
