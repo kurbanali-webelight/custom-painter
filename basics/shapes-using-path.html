@@ -676,8 +676,7 @@ class AddRectExamplePainter extends CustomPainter {<br>
             <h3><code>addOval(Rect rect)</code></h3>
             <p><strong>Purpose:</strong> Add an oval (ellipse) to the path. The rect defines the bounding box of the
                 oval.</p>
-            <p><strong>Common uses:</strong> Adding circles and ellipses to paths, creating rounded shapes, combining
-                ovals with other path elements.</p>
+            <p><strong>Common uses:</strong> Adding circles and ellipses to paths, creating rounded shapes.</p>
 
             <div class="property-layout">
                 <div class="property-code">
@@ -686,69 +685,27 @@ class AddRectExamplePainter extends CustomPainter {<br>
                             <span class="copy-text">Copy</span>
                         </button>
                         <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final strokePaint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3;<br>
-<br>
-&nbsp;&nbsp;final fillPaint = Paint()..style = PaintingStyle.fill;<br>
-<br>
-&nbsp;&nbsp;// Example: Decorative wave border using relativeConicTo<br>
-&nbsp;&nbsp;final path = Path();<br>
-&nbsp;&nbsp;final startY = size.height / 2;<br>
-&nbsp;&nbsp;final startX = 50.0;<br>
-<br>
-&nbsp;&nbsp;path.moveTo(startX, startY);<br>
-<br>
-&nbsp;&nbsp;// Create a wave pattern using relativeConicTo<br>
-&nbsp;&nbsp;// Each curve is drawn relative to the previous position<br>
-&nbsp;&nbsp;const segmentWidth = 70.0;<br>
-&nbsp;&nbsp;const waveHeight = 50.0;<br>
-&nbsp;&nbsp;const numWaves = 2;<br>
-<br>
-&nbsp;&nbsp;for (int i = 0; i &lt; numWaves; i++) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;// Upward curve (peak)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;path.relativeConicTo(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segmentWidth / 2, // control point x (relative)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-waveHeight, // control point y (relative) - up<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segmentWidth, // end point x (relative)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0, // end point y (relative) - back to center<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.707, // weight for smooth circular arc<br>
-&nbsp;&nbsp;&nbsp;&nbsp;);<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;// Downward curve (valley)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;path.relativeConicTo(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segmentWidth / 2, // control point x (relative)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waveHeight, // control point y (relative) - down<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segmentWidth, // end point x (relative)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0, // end point y (relative) - back to center<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.707, // weight for smooth circular arc<br>
-&nbsp;&nbsp;&nbsp;&nbsp;);<br>
-&nbsp;&nbsp;}<br>
-<br>
-&nbsp;&nbsp;// Close the path to create a filled shape<br>
-&nbsp;&nbsp;path.lineTo(startX + (numWaves * segmentWidth * 2), size.height);<br>
-&nbsp;&nbsp;path.lineTo(startX, size.height);<br>
-&nbsp;&nbsp;path.close();<br>
-<br>
-&nbsp;&nbsp;// Draw filled wave<br>
-&nbsp;&nbsp;fillPaint.color = Colors.blue.withValues(alpha: 0.3);<br>
-&nbsp;&nbsp;canvas.drawPath(path, fillPaint);<br>
-<br>
-&nbsp;&nbsp;// Draw stroke<br>
-&nbsp;&nbsp;strokePaint.color = Colors.blue;<br>
-&nbsp;&nbsp;canvas.drawPath(path, strokePaint);<br>
-<br>
-&nbsp;&nbsp;// Draw start point marker<br>
-&nbsp;&nbsp;canvas.drawCircle(Offset(startX, startY), 6, Paint()..color = Colors.green);<br>
-}<br>
-                        </code>
+            @override<br>
+            void paint(Canvas canvas, Size size) {<br>
+            &nbsp;&nbsp;final path = Path();<br>
+            &nbsp;&nbsp;final paint = Paint()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+            <br>
+            &nbsp;&nbsp;// Add an oval (circle when width == height)<br>
+            &nbsp;&nbsp;path.addOval(Rect.fromLTWH(50, 50, 100, 100));<br>
+            <br>
+            &nbsp;&nbsp;// Add an ellipse<br>
+            &nbsp;&nbsp;path.addOval(Rect.fromLTWH(200, 50, 150, 80));<br>
+            <br>
+            &nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+            }<br>
+                                    </code>
                     </div>
                 </div>
 
                 <div class="property-image">
-                    <img src="../assets/add-oval-using-path.png" alt="Flutter Path addOval visual example">
+                    <img src="../assets/oval.png" alt="Flutter Path addOval visual example">
                     <p class="image-caption">Visual guide showing how <code>addOval()</code> adds ovals and ellipses to
                         the path.</p>
                 </div>

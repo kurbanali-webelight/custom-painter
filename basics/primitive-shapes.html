@@ -765,30 +765,48 @@ void paint(Canvas canvas, Size size) {<br>
             </ul>
             <p><strong>Common uses:</strong> Donut shapes, rings, progress indicators, frames, borders with holes.</p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final center = Offset(size.width / 2, size.height / 2);<br>
-&nbsp;&nbsp;final outerRadius = 80.0;<br>
-&nbsp;&nbsp;final innerRadius = 50.0;<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
 <br>
-&nbsp;&nbsp;canvas.drawDRRect(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromCircle(center: center, radius: outerRadius),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius.circular(10),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromCircle(center: center, radius: innerRadius),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius.circular(5),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Paint()..color = Colors.blue,<br>
+&nbsp;&nbsp;// Outer rounded rectangle<br>
+&nbsp;&nbsp;final outerRect = Rect.fromLTWH(50, 50, 200, 150);<br>
+&nbsp;&nbsp;final outerRRect = RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;outerRect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const Radius.circular(20),<br>
 &nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Inner rounded rectangle (smaller, centered)<br>
+&nbsp;&nbsp;final innerRect = Rect.fromLTWH(90, 80, 120, 90);<br>
+&nbsp;&nbsp;final innerRRect = RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;innerRect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const Radius.circular(15),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw the double rounded rectangle (donut shape)<br>
+&nbsp;&nbsp;canvas.drawDRRect(outerRRect, innerRRect, paint);<br>
 }<br>
-                </code>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/d-r-rect.png" alt="Flutter Canvas drawDRRect visual example">
+                    <p class="image-caption">Visual guide showing how <code>drawDRRect()</code> creates a double
+                        rounded rectangle (donut shape). The outer blue rounded rectangle has a smaller inner rounded
+                        rectangle cut out from its center, creating a frame-like appearance. Both rectangles have
+                        rounded corners with different radii.
+                    </p>
+                </div>
             </div>
 
             <h3><code>drawArc(Rect rect, double startAngle, double sweepAngle, bool useCenter, Paint paint)</code>
