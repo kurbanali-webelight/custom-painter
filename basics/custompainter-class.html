@@ -246,11 +246,43 @@
         <a href="../index.html" class="back-link">← Back to Topics</a>
 
         <section class="section">
-            <h2>📚 Part 1: CustomPainter Class</h2>
+            <h2>📚 Overview</h2>
             <p>
                 CustomPainter is an <strong>abstract class</strong> that you must extend to create your own custom
                 painter. It has two mandatory methods you must override.
             </p>
+        </section>
+
+        <section class="section">
+            <h2>Extend CustomPainter Class</h2>
+            <p>
+                Here's a complete example of a class extending CustomPainter with both required methods overridden:
+            </p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+class MyPainter extends CustomPainter {<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Your drawing logic goes here<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;bool shouldRepaint(covariant CustomPainter oldDelegate) => false;<br>
+}
+                </code>
+            </div>
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li>Your class must <code>extend CustomPainter</code></li>
+                    <li>You must override <code>paint()</code> - this is where you draw</li>
+                    <li>You must override <code>shouldRepaint()</code> - this optimizes performance</li>
+                    <li>Both methods are required - you cannot skip either one</li>
+                </ul>
+            </div>
         </section>
 
         <section class="section">

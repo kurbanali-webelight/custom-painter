@@ -497,71 +497,111 @@ void paint(Canvas canvas, Size size) {<br>
 
             <hr>
 
-            <h3>Method: <code>distance</code></h3>
+            <h3>Property: <code>distance</code></h3>
             <p><strong>Type:</strong> <code>double distance</code></p>
             <p><strong>Purpose:</strong> Calculates the Euclidean distance from the origin (0, 0) to this offset.</p>
             <p><strong>Formula:</strong> <code>√(dx² + dy²)</code></p>
+            <p><strong>Note:</strong> You can also calculate distance between two offsets using
+                <code>(offset1 - offset2).distance</code>.
+            </p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final point = Offset(30, 40);<br>
-&nbsp;&nbsp;final dist = point.distance; // √(30² + 40²) = 50.0<br>
+&nbsp;&nbsp;// Reference point (top center)<br>
+&nbsp;&nbsp;final referencePoint = Offset(size.width / 2, 50);<br>
 <br>
-&nbsp;&nbsp;// Use distance to check if point is within a circle<br>
-&nbsp;&nbsp;final center = Offset(size.width / 2, size.height / 2);<br>
-&nbsp;&nbsp;final radius = 50.0;<br>
+&nbsp;&nbsp;// Paints<br>
+&nbsp;&nbsp;final pointPaint = Paint()..color = Colors.blue;<br>
+&nbsp;&nbsp;final rectPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.orange.withValues(alpha: 0.25)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+&nbsp;&nbsp;final borderPaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.orange<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
 <br>
-&nbsp;&nbsp;if (point.distance &lt; radius) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;// Point is inside the circle<br>
-&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(point, 10, Paint()..color = Colors.green);<br>
-&nbsp;&nbsp;} else {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(point, 10, Paint()..color = Colors.red);<br>
+&nbsp;&nbsp;// Draw reference dot<br>
+&nbsp;&nbsp;canvas.drawCircle(referencePoint, 8, pointPaint);<br>
+<br>
+&nbsp;&nbsp;// Three rectangles<br>
+&nbsp;&nbsp;final rects = [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(40, 140, 140, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(size.width / 2, size.height / 2 + 100, 140, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(size.width - 180, 380, 140, 80),<br>
+&nbsp;&nbsp;];<br>
+<br>
+&nbsp;&nbsp;for (final rect in rects) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Center of rectangle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final rectCenter = rect.center;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Distance from reference point<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final distance = (referencePoint - rectCenter).distance;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw rectangle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawRect(rect, rectPaint);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawRect(rect, borderPaint);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw line showing distance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawLine(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;referencePoint,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rectCenter,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw center dot<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawCircle(rectCenter, 4, Paint()..color = Colors.red);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw distance text<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_drawText(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Distance:\n${distance.toStringAsFixed(1)}',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rectCenter,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
 &nbsp;&nbsp;}<br>
 }<br>
-                </code>
-            </div>
-
-            <hr>
-
-            <h3>Method: <code>distanceTo(Offset other)</code></h3>
-            <p><strong>Type:</strong> <code>double distanceTo(Offset other)</code></p>
-            <p><strong>Purpose:</strong> Calculates the distance between two offsets.</p>
-
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final point1 = Offset(50, 50);<br>
-&nbsp;&nbsp;final point2 = Offset(150, 100);<br>
 <br>
-&nbsp;&nbsp;// Calculate distance between two points<br>
-&nbsp;&nbsp;final dist = point1.distanceTo(point2);<br>
-<br>
-&nbsp;&nbsp;// Draw a line connecting the points<br>
-&nbsp;&nbsp;canvas.drawLine(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;point1,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;point2,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+void _drawText(Canvas canvas, String text, Offset center) {<br>
+&nbsp;&nbsp;final painter = TextPainter(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text: TextSpan(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text: text,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style: const TextStyle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: Colors.black,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize: 14,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight: FontWeight.bold,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textAlign: TextAlign.center,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textDirection: TextDirection.ltr,<br>
 &nbsp;&nbsp;);<br>
 <br>
-&nbsp;&nbsp;// Draw circles at both points<br>
-&nbsp;&nbsp;canvas.drawCircle(point1, 8, Paint()..color = Colors.red);<br>
-&nbsp;&nbsp;canvas.drawCircle(point2, 8, Paint()..color = Colors.green);<br>
-<br>
-&nbsp;&nbsp;// Display distance (if using TextPainter)<br>
-&nbsp;&nbsp;print('Distance: $dist');<br>
+&nbsp;&nbsp;painter.layout();<br>
+&nbsp;&nbsp;painter.paint(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(center.dx - painter.width / 2, center.dy - painter.height / 2),<br>
+&nbsp;&nbsp;);<br>
 }<br>
-                </code>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/distance-method.png" alt="Flutter Offset distance visual example">
+                    <p class="image-caption">Visual guide showing how <code>distance</code> calculates the Euclidean
+                        distance between two offsets. The blue reference point at the top is connected to the center of
+                        each orange rectangle (marked with red dots) by gray lines. The distance value is displayed
+                        inside each rectangle, demonstrating how <code>(referencePoint - rectCenter).distance</code>
+                        works.
+                    </p>
+                </div>
             </div>
 
             <hr>
@@ -622,9 +662,7 @@ void paint(Canvas canvas, Size size) {<br>
 <br>
 &nbsp;&nbsp;// Move 100 pixels to the right, 30 pixels down<br>
 &nbsp;&nbsp;final moved = start.translate(100, 30); // Offset(150, 80)<br>
-<br>
-&nbsp;&nbsp;// Move only horizontally<br>
-&nbsp;&nbsp;// final right = start.translate(50, 0); // Offset(100, 50)<br>
+
 <br>
 &nbsp;&nbsp;// Draw a path showing the movement<br>
 &nbsp;&nbsp;final path = Path()<br>
@@ -839,12 +877,6 @@ void paint(Canvas canvas, Size size) {<br>
                         <td>None</td>
                         <td><code>double</code></td>
                         <td>Squared distance from origin</td>
-                    </tr>
-                    <tr>
-                        <td><code>distanceTo(Offset other)</code></td>
-                        <td><code>Offset other</code></td>
-                        <td><code>double</code></td>
-                        <td>Distance to another offset</td>
                     </tr>
                     <tr>
                         <td><code>distanceSquaredTo(Offset other)</code></td>

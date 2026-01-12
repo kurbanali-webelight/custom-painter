@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛤️ Path Methods Reference - Custom Painter Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #e8f0fe;
+            transform: translateX(-3px);
+        }
+
+        .section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0fe;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        ul,
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #1a73e8;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .copy-button:hover {
+            background-color: #1557b0;
+            transform: translateY(-1px);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button.copied {
+            background-color: #28a745;
+        }
+
+        .code-block code {
+            color: #2c3e50;
+            background-color: transparent;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background-color: #e8f0fe;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .property-layout {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+
+        .property-code {
+            flex: 1.5;
+            min-width: 0;
+        }
+
+        .property-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .property-image img {
+            max-width: 70%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .image-caption {
+            margin-top: 8px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+        }
+
+        .demo-link-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .demo-link-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo-link-content {
+            flex: 1;
+        }
+
+        .demo-link-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-link-title::before {
+            content: '🎨';
+            font-size: 1.2em;
+        }
+
+        .demo-link-description {
+            font-size: 1em;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .demo-link-arrow {
+            font-size: 1.8em;
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-link:hover .demo-link-arrow {
+            transform: translateX(8px);
+        }
+
+        .example-images {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .example-item img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-item .image-caption {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        @media (max-width: 900px) {
+            .demo-link-container {
+                padding: 20px;
+            }
+
+            .demo-link {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .demo-link-arrow {
+                margin-left: 0;
+                margin-top: 15px;
+                align-self: flex-end;
+            }
+
+            .demo-link-title {
+                font-size: 1.2em;
+            }
+
+            .demo-link-description {
+                font-size: 0.95em;
+            }
+
+            .property-layout {
+                flex-direction: column;
+            }
+
+            .property-image {
+                margin-top: -10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>⭕️ Adding Predefined Shapes to Path</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Topics</a>
+
+
+        <section class="section">
+            <h2>📚 Overview</h2>
+            <p>
+                This page provides a comprehensive reference for methods that add predefined shapes to Flutter's
+                <code>Path</code>
+                class. These methods allow you to quickly add common geometric shapes (rectangles, ovals, polygons) to
+                your paths
+                without manually drawing them with lines and curves.
+            </p>
+            <p><strong>Adding Shapes to Path Methods:</strong></p>
+            <ul>
+                <li><strong>addRect:</strong> Add rectangles to paths for creating rectangular shapes</li>
+                <li><strong>addOval:</strong> Add ovals and ellipses (including circles) to paths</li>
+                <li><strong>addRRect:</strong> Add rounded rectangles with customizable corner radii</li>
+                <li><strong>addPolygon:</strong> Add polygons from a list of points (stars, triangles, etc.)</li>
+                <li><strong>addPath:</strong> Combine multiple paths together to create complex shapes</li>
+            </ul>
+            <div class="info-box">
+                <strong>💡 Key Concept:</strong> These methods add shapes as closed contours to your path. You can
+                combine multiple
+                shapes in a single path, apply transformations, and use them with <code>canvas.drawPath()</code> to
+                render complex
+                graphics efficiently.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>❓ Why Use Path.addRect() When I Can Use canvas.drawRect()?</h2>
+            <p>
+                <strong>This is an excellent, fundamental question</strong> — you've reached the point where Canvas vs
+                Path
+                actually matters.
+            </p>
+            <div class="highlight-box">
+                <strong>🎯 Short Answer:</strong><br>
+                <strong>Canvas draws shapes.</strong><br>
+                <strong>Path describes shapes.</strong>
+            </div>
+            <p>
+                Path lets you treat multiple shapes as <strong>ONE logical shape</strong>. That single idea unlocks
+                everything
+                below.
+            </p>
+
+            <h3>1️⃣ One Paint, One Draw Call (Performance & Consistency)</h3>
+            <p><strong>❌ Without Path (multiple draw calls):</strong></p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+canvas.drawRect(rect1, paint);<br>
+canvas.drawRect(rect2, paint);<br>
+canvas.drawRect(rect3, paint);<br>
+// Multiple GPU calls, harder to manage combined effects, repeated logic
+                </code>
+            </div>
+
+            <p><strong>✅ With Path (single draw call):</strong></p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+path.addRect(rect1);<br>
+path.addRect(rect2);<br>
+path.addRect(rect3);<br>
+canvas.drawPath(path, paint);<br>
+// ✔ Faster, ✔ Cleaner, ✔ Consistent rendering
+                </code>
+            </div>
+            <p><strong>Important:</strong> Flutter batches paths more efficiently than separate primitives.</p>
+
+            <h3>2️⃣ Boolean Shape Operations (IMPOSSIBLE with canvas.drawRect)</h3>
+            <p>Path supports holes, cut-outs, unions, and intersections.</p>
+            <p><strong>🔥 Example: "Punch a hole"</strong></p>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final path = Path();<br>
+&nbsp;&nbsp;final paint = Paint()..color = Colors.blue;<br>
+<br>
+&nbsp;&nbsp;// Create a rectangle with a hole<br>
+&nbsp;&nbsp;path.addRect(Rect.fromLTWH(50, 50, 200, 200));<br>
+&nbsp;&nbsp;path.addOval(Rect.fromCircle(center: Offset(150, 150), radius: 50));<br>
+&nbsp;&nbsp;path.fillType = PathFillType.evenOdd; // Creates the hole<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                </code>
+            </div>
+            <p><strong>❌ You CANNOT do this with drawRect alone.</strong></p>
+
+            <h3>3️⃣ Complex Shapes = Combination of Simple Shapes</h3>
+            <p>When you combine multiple shapes in a path:</p>
+            <ul>
+                <li>They become a single compound shape</li>
+                <li>Unified fill, stroke, clipping, and animation</li>
+            </ul>
+            <p><strong>Real-world examples:</strong></p>
+            <ul>
+                <li>Bar chart (multiple bars = one shape)</li>
+                <li>Histogram</li>
+                <li>Grid blocks</li>
+                <li>Skeleton loaders</li>
+            </ul>
+
+            <!-- <h3>4️⃣ Clipping (Path is KING here)</h3>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+canvas.clipPath(path);<br>
+canvas.drawImage(image, Offset.zero, paint);<br>
+// You can clip any drawing using a path
+                </code>
+            </div>
+            <p><strong>❌ drawRect cannot clip anything.</strong></p>
+
+            <h3>5️⃣ Hit Testing (Path.contains)</h3>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+if (path.contains(touchPoint)) {<br>
+&nbsp;&nbsp;// User touched ANY rect in the group<br>
+}
+                </code>
+            </div>
+            <p><strong>This is HUGE.</strong> With drawRect, you'd need to manually check each rect.</p>
+
+            <h3>6️⃣ Stroke Continuity (Very Important Visually)</h3>
+            <p><strong>With Path:</strong></p>
+            <ul>
+                <li>Stroke joins correctly</li>
+                <li>No overlaps</li>
+                <li>No doubled edges</li>
+            </ul>
+            <p><strong>With multiple drawRect:</strong></p>
+            <ul>
+                <li>Overlapping strokes</li>
+                <li>Visual artifacts</li>
+            </ul>
+
+            <h3>7️⃣ Animations (Path can MORPH)</h3>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+final animatedPath = Path.lerp(pathA, pathB, t)!;<br>
+// You can animate between shapes, morph geometry, build liquid effects
+                </code>
+            </div>
+            <p><strong>❌ You cannot morph individual drawRect calls.</strong></p> -->
+
+            <h3>4️⃣ Transforms Apply to EVERYTHING at Once</h3>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+canvas.save();<br>
+canvas.translate(50, 50);<br>
+canvas.drawPath(path, paint);<br>
+canvas.restore();<br>
+// All shapes move together
+                </code>
+            </div>
+            <p>Without Path, you must translate each rect manually.</p>
+
+            <h3>🧠 When SHOULD you use canvas.drawRect()?</h3>
+            <p>Use <code>drawRect</code> when:</p>
+            <ul>
+                <li>Single shape</li>
+                <li>Static</li>
+                <li>No interaction</li>
+                <li>No clipping</li>
+                <li>No animation</li>
+                <li>No boolean logic</li>
+            </ul>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                    <span class="copy-text">Copy</span>
+                </button>
+                <code>
+// Perfectly fine for simple cases<br>
+canvas.drawRect(Rect.fromLTWH(0, 0, 100, 100), paint);
+                </code>
+            </div>
+
+            <h3>🧠 When SHOULD you use Path.addRect()?</h3>
+            <p>Use Path when:</p>
+            <ul>
+                <li>Multiple shapes act as one</li>
+                <li>You need holes or cut-outs</li>
+                <li>You need clipping</li>
+                <li>You need hit-testing</li>
+                <li>You need animation</li>
+                <li>You want clean strokes</li>
+                <li>You want scalable geometry</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🔥 Real-world Analogy:</strong><br>
+                <code>canvas.drawRect()</code> → drawing individual bricks<br>
+                <code>Path</code> → designing the entire building blueprint<br>
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Final Rule of Thumb (Memorize This):</strong><br>
+                <strong>If a shape is part of a system → use Path</strong><br>
+                <strong>If a shape stands alone → use Canvas</strong>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔷 Adding Predefined Shapes to Paths</h2>
+
+            <h3><code>addRect(Rect rect)</code></h3>
+            <p><strong>Purpose:</strong> Add a rectangle to the path as a closed contour.</p>
+            <p><strong>Common uses:</strong> Combining rectangles with other shapes, creating complex paths from simple
+                shapes, building composite shapes.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+class AddRectExamplePainter extends CustomPainter {<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final path = Path();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Add first rectangle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path.addRect(Rect.fromLTWH(40, 40, 100, 80));<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Add second rectangle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path.addRect(Rect.fromLTWH(180, 40, 100, 80));<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Add third rectangle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path.addRect(Rect.fromLTWH(110, 150, 100, 80));<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw all rectangles at once<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;@override<br>
+&nbsp;&nbsp;bool shouldRepaint(covariant CustomPainter oldDelegate) => false;<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <h3><code>addOval(Rect rect)</code></h3>
+            <p><strong>Purpose:</strong> Add an oval (ellipse) to the path. The rect defines the bounding box of the
+                oval.</p>
+            <p><strong>Common uses:</strong> Adding circles and ellipses to paths, creating rounded shapes.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+            @override<br>
+            void paint(Canvas canvas, Size size) {<br>
+            &nbsp;&nbsp;final path = Path();<br>
+            &nbsp;&nbsp;final paint = Paint()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+            <br>
+            &nbsp;&nbsp;// Add an oval (circle when width == height)<br>
+            &nbsp;&nbsp;path.addOval(Rect.fromLTWH(50, 50, 100, 100));<br>
+            <br>
+            &nbsp;&nbsp;// Add an ellipse<br>
+            &nbsp;&nbsp;path.addOval(Rect.fromLTWH(200, 50, 150, 80));<br>
+            <br>
+            &nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+            }<br>
+                                    </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/oval.png" alt="Flutter Path addOval visual example">
+                    <p class="image-caption">Visual guide showing how <code>addOval()</code> adds ovals and ellipses to
+                        the path.</p>
+                </div>
+            </div>
+
+            <h3><code>addRRect(RRect rrect)</code></h3>
+            <p><strong>Purpose:</strong> Add a rounded rectangle to the path.</p>
+            <p><strong>Common uses:</strong> Adding rounded rectangles to paths, creating modern UI shapes, combining
+                rounded shapes with curves.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;final path = Path();<br>
+<br>
+&nbsp;&nbsp;path.addRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(40, 40, 120, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const Radius.circular(16),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;path.addRRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;RRect.fromRectAndRadius(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rect.fromLTWH(200, 40, 120, 80),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const Radius.circular(16),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/add-rrect-using-path.png" alt="Flutter Path addRRect visual example">
+                    <p class="image-caption">Visual guide showing how <code>addRRect()</code> adds rounded rectangles to
+                        the path.</p>
+                </div>
+            </div>
+
+            <h3><code>addPolygon(List&lt;Offset&gt; points, bool close)</code></h3>
+            <p><strong>Purpose:</strong> Add a polygon from a list of points. If <code>close</code> is true, connects
+                the
+                last point to the first.</p>
+            <p><strong>Common uses:</strong> Creating polygons, stars, geometric shapes, complex closed paths from point
+                lists.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final strokePaint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3;<br>
+<br>
+&nbsp;&nbsp;final fillPaint = Paint()..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;// ================================<br>
+&nbsp;&nbsp;// 1️⃣ Triangle (Top Left)<br>
+&nbsp;&nbsp;// ================================<br>
+&nbsp;&nbsp;final trianglePath = Path();<br>
+&nbsp;&nbsp;trianglePath.addPolygon(const [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(80, 40),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(40, 140),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(120, 140),<br>
+&nbsp;&nbsp;], false);<br>
+&nbsp;&nbsp;canvas.drawPath(trianglePath, fillPaint..color = Colors.blue);<br>
+<br>
+&nbsp;&nbsp;// ================================<br>
+&nbsp;&nbsp;// 2️⃣ Pentagon (Center Left)<br>
+&nbsp;&nbsp;// ================================<br>
+&nbsp;&nbsp;final pentagonPath = Path();<br>
+&nbsp;&nbsp;final pentagonCenter = Offset(100, size.height / 2);<br>
+&nbsp;&nbsp;const pentagonRadius = 60.0;<br>
+&nbsp;&nbsp;final pentagonPoints = &lt;Offset&gt;[];<br>
+<br>
+&nbsp;&nbsp;for (int i = 0; i &lt; 5; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final angle = (i * 2 * math.pi / 5) - math.pi / 2;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pentagonPoints.add(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offset(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pentagonCenter.dx + pentagonRadius * math.cos(angle),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pentagonCenter.dy + pentagonRadius * math.sin(angle),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;pentagonPath.addPolygon(pentagonPoints, true);<br>
+&nbsp;&nbsp;canvas.drawPath(pentagonPath, strokePaint..color = Colors.purple);<br>
+<br>
+&nbsp;&nbsp;// ================================<br>
+&nbsp;&nbsp;// 4️⃣ Star Polygon (Center Right)<br>
+&nbsp;&nbsp;// ================================<br>
+&nbsp;&nbsp;final starPath = Path();<br>
+&nbsp;&nbsp;final starCenter = Offset(size.width - 100, size.height / 2);<br>
+&nbsp;&nbsp;const outerRadius = 60.0;<br>
+&nbsp;&nbsp;const innerRadius = 30.0;<br>
+&nbsp;&nbsp;final starPoints = &lt;Offset&gt;[];<br>
+<br>
+&nbsp;&nbsp;for (int i = 0; i &lt; 10; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final angle = (i * math.pi / 5) - math.pi / 2;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final radius = i.isEven ? outerRadius : innerRadius;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;starPoints.add(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offset(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;starCenter.dx + radius * math.cos(angle),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;starCenter.dy + radius * math.sin(angle),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;starPath.addPolygon(starPoints, true);<br>
+&nbsp;&nbsp;canvas.drawPath(starPath, fillPaint..color = Colors.orange);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/add-polygon-using-path.png" alt="Flutter Path addPolygon visual example">
+                    <p class="image-caption">Visual guide showing how <code>addPolygon()</code> creates polygons from a
+                        list
+                        of points. The example demonstrates a filled blue triangle, a stroked purple pentagon, and a
+                        filled
+                        orange star polygon.</p>
+                </div>
+            </div>
+
+            <h3><code>addPath(Path path, Offset offset)</code></h3>
+            <p><strong>Purpose:</strong> Add another path to this path, optionally offset by the given offset.</p>
+            <p><strong>Common uses:</strong> Combining multiple paths, duplicating shapes, creating patterns, building
+                complex shapes from simpler ones.</p>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;final paint = Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+<br>
+&nbsp;&nbsp;// Step 1: Create ONE dot<br>
+&nbsp;&nbsp;final dotPath = Path()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..addOval(Rect.fromCircle(center: Offset.zero, radius: 6));<br>
+<br>
+&nbsp;&nbsp;// Step 2: Create a combined path<br>
+&nbsp;&nbsp;final dots = Path();<br>
+<br>
+&nbsp;&nbsp;// Step 3: Reuse the same dot at different positions<br>
+&nbsp;&nbsp;dots.addPath(dotPath, const Offset(80, 50));<br>
+&nbsp;&nbsp;dots.addPath(dotPath, const Offset(100, 50));<br>
+&nbsp;&nbsp;dots.addPath(dotPath, const Offset(120, 50));<br>
+<br>
+&nbsp;&nbsp;// Step 4: Draw all dots at once<br>
+&nbsp;&nbsp;canvas.drawPath(dots, paint);<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/add-path-using-path.png" alt="Flutter Path addPath visual example">
+                    <p class="image-caption">Visual guide showing how <code>addPath()</code> reuses a single path (dot)
+                        at multiple positions, creating three red dots arranged horizontally. This demonstrates the
+                        power
+                        of path reuse for creating patterns.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 Complete Path Methods Reference</h2>
+
+            <h3>Adding Predefined Shapes to Path</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>addRect(Rect rect)</code></td>
+                        <td><code>Rect rect</code></td>
+                        <td>Adds a rectangle to the path as a closed contour. The rectangle is defined by a Rect object
+                            specifying position and size.</td>
+                    </tr>
+                    <tr>
+                        <td><code>addOval(Rect rect)</code></td>
+                        <td><code>Rect rect</code></td>
+                        <td>Adds an oval (ellipse) to the path. The rect parameter defines the bounding box of the oval.
+                            When width equals height, creates a circle.</td>
+                    </tr>
+                    <tr>
+                        <td><code>addRRect(RRect rrect)</code></td>
+                        <td><code>RRect rrect</code></td>
+                        <td>Adds a rounded rectangle to the path. The rrect parameter includes corner radius information
+                            for creating modern UI shapes.</td>
+                    </tr>
+                    <tr>
+                        <td><code>addPolygon(List&lt;Offset&gt; points, bool close)</code></td>
+                        <td><code>List&lt;Offset&gt; points, bool close</code></td>
+                        <td>Adds a polygon from a list of points. If close is true, connects the last point to the
+                            first, creating a closed shape.</td>
+                    </tr>
+                    <tr>
+                        <td><code>addPath(Path path, Offset offset)</code></td>
+                        <td><code>Path path, Offset offset</code></td>
+                        <td>Adds another path to this path, optionally offset by the given offset. Useful for combining
+                            multiple paths or creating patterns.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="section">
+            <h2>🖼️ Visual Guide</h2>
+            <p>
+                Here is a comprehensive visual guide to Canvas Drawing APIs:
+            </p>
+
+            <div class="example-images">
+                <div class="example-item">
+                    <img src="../assets/shapes-using-path-infographics.png"
+                        alt="Flutter Canvas Drawing APIs Complete Visual Guide">
+                    <p class="image-caption">Complete Visual Guide to Flutter's Canvas Drawing APIs</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+        <span>↑</span>
+    </button>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                button.classList.add('copied');
+                const originalText = button.querySelector('.copy-text').textContent;
+                button.querySelector('.copy-text').textContent = 'Copied!';
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.querySelector('.copy-text').textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>

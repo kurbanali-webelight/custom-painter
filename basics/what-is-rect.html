@@ -369,33 +369,146 @@
             <p><strong>Purpose:</strong> Build a rect from <strong>L</strong>eft, <strong>T</strong>op,
                 <strong>W</strong>idth and <strong>H</strong>eight.
             </p>
+            <p><strong>Alternative:</strong> You can also create a Rect using the <code>&</code> operator:
+                <code>Offset(left, top) & Size(width, height)</code>
+            </p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;// A 100x60 box starting at (20, 30)<br>
-&nbsp;&nbsp;final rect = Rect.fromLTWH(20, 30, 100, 60);<br>
+&nbsp;&nbsp;final origin1 = Offset(20, 30);<br>
+&nbsp;&nbsp;final origin2 = Offset(size.width / 2, size.height / 2);<br>
+&nbsp;&nbsp;final rectSize = Size(100, 60);<br>
+&nbsp;&nbsp;final rectSize2 = Size(80, 120);<br>
 <br>
+&nbsp;&nbsp;final rect1 = origin1 & rectSize;<br>
+&nbsp;&nbsp;final rect2 = origin2 & rectSize2;<br>
 &nbsp;&nbsp;final paint = Paint()..color = Colors.blue;<br>
-&nbsp;&nbsp;canvas.drawRect(rect, paint);<br>
+&nbsp;&nbsp;canvas.drawRect(rect1, paint);<br>
+&nbsp;&nbsp;canvas.drawRect(rect2, paint);<br>
 }<br>
-                </code>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/rect-from-ltwh.png" alt="Flutter Rect fromLTWH visual example">
+                    <p class="image-caption">Visual guide showing how <code>Rect.fromLTWH()</code> or the
+                        <code>&</code> operator creates rectangles from an origin point (top-left corner) and size
+                        (width and height). Two blue rectangles are shown: one horizontal rectangle in the upper-left
+                        and one vertical rectangle centered on the screen.
+                    </p>
+                </div>
             </div>
 
             <h3><code>Rect.fromLTRB(left, top, right, bottom)</code></h3>
-            <p><strong>Purpose:</strong> Create a rect when you already know all four edges.</p>
+            <p><strong>Purpose:</strong> Create a rect when you already know all four edges: <strong>L</strong>eft,
+                <strong>T</strong>op, <strong>R</strong>ight, and <strong>B</strong>ottom.
+            </p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>left</code> - X coordinate of the left edge</li>
+                <li><code>top</code> - Y coordinate of the top edge</li>
+                <li><code>right</code> - X coordinate of the right edge</li>
+                <li><code>bottom</code> - Y coordinate of the bottom edge</li>
+            </ul>
+            <p><strong>Note:</strong> The width is calculated as <code>right - left</code> and height as
+                <code>bottom - top</code>. Make sure <code>right &gt; left</code> and <code>bottom &gt; top</code>.
+            </p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final rect = Rect.fromLTRB(10, 20, 210, 120); // width = 200, height = 100<br>
-                </code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+@override<br>
+void paint(Canvas canvas, Size size) {<br>
+&nbsp;&nbsp;// First rectangle: from (50, 40) to (200, 140)<br>
+&nbsp;&nbsp;// width = 200 - 50 = 150, height = 140 - 40 = 100<br>
+&nbsp;&nbsp;final rect1 = Rect.fromLTRB(50, 40, 200, 140);<br>
+<br>
+&nbsp;&nbsp;// Second rectangle: centered horizontally, positioned vertically<br>
+&nbsp;&nbsp;// Left edge at 1/4 width, right edge at 3/4 width<br>
+&nbsp;&nbsp;// Top at 1/3 height, bottom at 2/3 height<br>
+&nbsp;&nbsp;final rect2 = Rect.fromLTRB(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size.width / 4,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size.height / 3,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size.width * 3 / 4,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size.height * 2 / 3,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;final paint = Paint()..color = Colors.blue;<br>
+&nbsp;&nbsp;canvas.drawRect(rect1, paint);<br>
+&nbsp;&nbsp;canvas.drawRect(rect2, paint);<br>
+<br>
+&nbsp;&nbsp;// Draw LTRB points for rect1<br>
+&nbsp;&nbsp;final pointPaint1 = Paint()..color = Colors.red;<br>
+&nbsp;&nbsp;final pointRadius = 6.0;<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect1.left, rect1.top),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint1,<br>
+&nbsp;&nbsp;); // Left-Top<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect1.right, rect1.top),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint1,<br>
+&nbsp;&nbsp;); // Right-Top<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect1.left, rect1.bottom),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint1,<br>
+&nbsp;&nbsp;); // Left-Bottom<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect1.right, rect1.bottom),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint1,<br>
+&nbsp;&nbsp;); // Right-Bottom<br>
+<br>
+&nbsp;&nbsp;// Draw LTRB points for rect2<br>
+&nbsp;&nbsp;final pointPaint2 = Paint()..color = Colors.green;<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect2.left, rect2.top),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint2,<br>
+&nbsp;&nbsp;); // Left-Top<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect2.right, rect2.top),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint2,<br>
+&nbsp;&nbsp;); // Right-Top<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect2.left, rect2.bottom),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint2,<br>
+&nbsp;&nbsp;); // Left-Bottom<br>
+&nbsp;&nbsp;canvas.drawCircle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Offset(rect2.right, rect2.bottom),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointRadius,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointPaint2,<br>
+&nbsp;&nbsp;); // Right-Bottom<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/rect-ltrb.png" alt="Flutter Rect fromLTRB visual example">
+                    <p class="image-caption">Visual guide showing how <code>Rect.fromLTRB()</code> creates rectangles
+                        from four edge coordinates (left, top, right, bottom). Two blue rectangles are shown with corner
+                        markers: red dots mark the four corners of the first rectangle (left, top, right, bottom), and
+                        green dots mark the four corners of the second rectangle, clearly demonstrating how the LTRB
+                        parameters define the rectangle boundaries.
+                    </p>
+                </div>
             </div>
 
             <h3><code>Rect.fromCenter</code> and <code>Rect.fromCircle</code></h3>
@@ -613,7 +726,57 @@ void paint(Canvas canvas, Size size) {<br>
             </div>
 
             <h3><code>shift(Offset)</code> / <code>translate(dx, dy)</code></h3>
-            <p><strong>Purpose:</strong> Move the rect without changing its size.</p>
+            <p><strong>Purpose:</strong> Move the rect to a new position without changing its size. Both methods
+                perform the same operation but accept parameters differently.</p>
+            <p><strong>What happens:</strong> The rectangle is moved by adding the offset values to all four edges
+                (left, top, right, bottom), effectively translating the entire rectangle in 2D space.</p>
+            <p><strong>Mathematical operation:</strong></p>
+            <ul>
+                <li>New <code>left = oldLeft + offset.dx</code></li>
+                <li>New <code>top = oldTop + offset.dy</code></li>
+                <li>New <code>right = oldRight + offset.dx</code></li>
+                <li>New <code>bottom = oldBottom + offset.dy</code></li>
+                <li>Width and height remain unchanged</li>
+            </ul>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>shift(Offset offset)</code> - Takes a single <code>Offset</code> object with <code>dx</code>
+                    and <code>dy</code> components</li>
+                <li><code>translate(double dx, double dy)</code> - Takes separate <code>dx</code> (horizontal) and
+                    <code>dy</code> (vertical) values
+                </li>
+            </ul>
+            <p><strong>Return value:</strong> Returns a new <code>Rect</code> object at the new position. The original
+                rect is not modified (Rects are immutable).</p>
+            <p><strong>When to use:</strong></p>
+            <ul>
+                <li><strong>shift()</strong> - Use when you already have an <code>Offset</code> object or want to move
+                    by a pre-calculated offset</li>
+                <li><strong>translate()</strong> - Use when you have separate x and y values or want more explicit
+                    control</li>
+                <li>Both are functionally equivalent - choose based on what's more convenient for your code</li>
+            </ul>
+            <p><strong>Common use cases:</strong></p>
+            <ul>
+                <li>Repositioning UI elements</li>
+                <li>Creating patterns by duplicating and moving rectangles</li>
+                <li>Animating rectangle positions</li>
+                <li>Aligning rectangles relative to other elements</li>
+                <li>Creating grid layouts</li>
+            </ul>
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li>Both methods return a <strong>new</strong> Rect - they don't modify the original</li>
+                    <li>The rectangle's size (width and height) remains exactly the same</li>
+                    <li>Positive <code>dx</code> moves right, negative moves left</li>
+                    <li>Positive <code>dy</code> moves down, negative moves up</li>
+                    <li>You can chain multiple shifts: <code>rect.shift(offset1).shift(offset2)</code></li>
+                    <li>These methods are equivalent: <code>rect.shift(Offset(dx, dy))</code> and
+                        <code>rect.translate(dx, dy)</code>
+                    </li>
+                </ul>
+            </div>
 
             <div class="property-layout">
                 <div class="property-code">
@@ -707,87 +870,438 @@ void _drawText(Canvas canvas, String text, Offset pos, Color color) {<br>
                 <div class="property-image">
                     <img src="../assets/rect_shift_translate.png" alt="Flutter Rect shift and translate visual example">
                     <p class="image-caption">Visual guide showing how <code>shift()</code> and <code>translate()</code>
-                        move rectangles without changing their size.</p>
+                        move rectangles without changing their size. The blue rectangle is the original, the green
+                        rectangle is moved horizontally using <code>shift(Offset(120, 0))</code>, and the red rectangle
+                        is moved both horizontally and vertically using <code>translate(120, 150)</code>. All three
+                        rectangles maintain the same dimensions, demonstrating that these methods only change position.
+                    </p>
                 </div>
             </div>
 
             <h3><code>overlaps</code> &amp; <code>intersect</code></h3>
-            <p><strong>Purpose:</strong> Work with intersections between two rects.</p>
+            <p><strong>Purpose:</strong> Detect and calculate the intersection area between two rectangles. These
+                methods
+                work together to determine if rectangles overlap and find their common area.</p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <h4><code>overlaps(Rect other) → bool</code></h4>
+            <p><strong>Purpose:</strong> Check if two rectangles have any overlapping area (intersection).</p>
+            <p><strong>What it does:</strong> Returns <code>true</code> if the rectangles share at least one point in
+                common, <code>false</code> if they are completely separate or only touch at edges/corners.</p>
+            <p><strong>Mathematical check:</strong></p>
+            <ul>
+                <li>Returns <code>true</code> if: <code>left &lt; other.right &amp;&amp; right &gt; other.left &amp;&amp;
+                        top &lt; other.bottom &amp;&amp; bottom &gt; other.top</code></li>
+                <li>Returns <code>false</code> if rectangles are adjacent (touching edges) or completely separate</li>
+                <li>Edge cases: Rectangles that only touch at a corner or edge return <code>false</code></li>
+            </ul>
+            <p><strong>Return value:</strong> <code>bool</code> - <code>true</code> if there's an overlap,
+                <code>false</code>
+                otherwise.
+            </p>
+
+            <h4><code>intersect(Rect other) → Rect</code></h4>
+            <p><strong>Purpose:</strong> Calculate the rectangular area where two rectangles overlap.</p>
+            <p><strong>What it does:</strong> Returns a new <code>Rect</code> representing the intersection area. If the
+                rectangles don't overlap, returns an empty rect (<code>Rect.zero</code> or a rect with zero or negative
+                dimensions).</p>
+            <p><strong>Mathematical calculation:</strong></p>
+            <ul>
+                <li>Intersection <code>left = max(rect1.left, rect2.left)</code></li>
+                <li>Intersection <code>top = max(rect1.top, rect2.top)</code></li>
+                <li>Intersection <code>right = min(rect1.right, rect2.right)</code></li>
+                <li>Intersection <code>bottom = min(rect1.bottom, rect2.bottom)</code></li>
+                <li>If the calculated rect has zero or negative dimensions, the rectangles don't overlap</li>
+            </ul>
+            <p><strong>Return value:</strong> A new <code>Rect</code> representing the intersection, or an empty rect if
+                there's no overlap.</p>
+
+            <p><strong>Relationship between methods:</strong></p>
+            <ul>
+                <li>Always check <code>overlaps()</code> before calling <code>intersect()</code> to avoid working with
+                    empty rects</li>
+                <li><code>overlaps()</code> is faster - use it for quick checks</li>
+                <li><code>intersect()</code> gives you the actual overlapping area - use it when you need the
+                    dimensions</li>
+            </ul>
+
+            <p><strong>Common use cases:</strong></p>
+            <ul>
+                <li>Collision detection in games</li>
+                <li>UI element overlap detection</li>
+                <li>Calculating visible regions when rectangles overlap</li>
+                <li>Clipping operations</li>
+                <li>Layout calculations (e.g., preventing overlapping widgets)</li>
+                <li>Hit testing between multiple rectangles</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li><code>overlaps()</code> returns <code>false</code> for rectangles that only touch at edges or
+                        corners</li>
+                    <li><code>intersect()</code> may return an empty rect if rectangles don't overlap - always check
+                        <code>overlaps()</code> first
+                    </li>
+                    <li>Both methods are commutative: <code>a.overlaps(b) == b.overlaps(a)</code></li>
+                    <li>The intersection rect is always contained within both original rectangles</li>
+                    <li>If <code>overlaps()</code> returns <code>true</code>, <code>intersect()</code> will return a
+                        non-empty rect</li>
+                    <li>Use <code>intersect().isEmpty</code> to verify if the intersection is valid</li>
+                </ul>
+            </div>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final a = Rect.fromLTWH(20, 20, 100, 60);<br>
-&nbsp;&nbsp;final b = Rect.fromLTWH(80, 40, 100, 60);<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;// Example 1: overlaps() method (Top)<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;final a1 = Rect.fromLTWH(20, 20, 100, 60);<br>
+&nbsp;&nbsp;final b1 = Rect.fromLTWH(80, 40, 100, 60);<br>
 <br>
-&nbsp;&nbsp;if (a.overlaps(b)) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;final intersection = a.intersect(b);<br>
+&nbsp;&nbsp;// Check if rectangles overlap using overlaps() method<br>
+&nbsp;&nbsp;final overlapsResult = a1.overlaps(b1);<br>
+<br>
+&nbsp;&nbsp;// Draw original rectangles<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw text label for Example 1<br>
+&nbsp;&nbsp;_drawText(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Example 1: overlaps() method\nResult: $overlapsResult',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b1.bottomLeft.translate(100, 3),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;// Example 2: intersect() method (Bottom)<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;final a2 = Rect.fromLTWH(20, size.height * 0.3, 100, 60);<br>
+&nbsp;&nbsp;final b2 = Rect.fromLTWH(80, size.height * 0.35, 100, 60);<br>
+<br>
+&nbsp;&nbsp;// Check if rectangles overlap first<br>
+&nbsp;&nbsp;if (a2.overlaps(b2)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Calculate intersection area using intersect() method<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final intersection = a2.intersect(b2);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw the intersection area in orange (only if they overlap)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;canvas.drawRect(intersection, Paint()..color = Colors.orange);<br>
 &nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;// Draw original rectangles<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw text label for Example 2<br>
+&nbsp;&nbsp;_drawText(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Example 2: intersect() method\nOrange area = intersection',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b2.bottomLeft.translate(100, 3),<br>
+&nbsp;&nbsp;);<br>
 }<br>
-                </code>
+<br>
+void _drawText(Canvas canvas, String text, Offset position) {<br>
+&nbsp;&nbsp;final painter = TextPainter(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text: TextSpan(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text: text,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style: const TextStyle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: Colors.black,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize: 16,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight: FontWeight.bold,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textAlign: TextAlign.center,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textDirection: TextDirection.ltr,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;painter.layout();<br>
+&nbsp;&nbsp;painter.paint(canvas, Offset(position.dx - painter.width / 2, position.dy));<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/overlaps-intersects.png"
+                        alt="Flutter Rect overlaps and intersect visual example">
+                    <p class="image-caption">Visual guide demonstrating both <code>overlaps()</code> and
+                        <code>intersect()</code> methods. Example 1 (top) shows two overlapping rectangles (blue and
+                        green) with the <code>overlaps()</code> result displayed. Example 2 (bottom) shows the same
+                        rectangles with the intersection area highlighted in orange, demonstrating how
+                        <code>intersect()</code> calculates the common area between overlapping rectangles.
+                    </p>
+                </div>
             </div>
 
             <h3><code>expandToInclude</code> / <code>union</code></h3>
-            <p><strong>Purpose:</strong> Compute the smallest rect that contains both inputs.</p>
+            <p><strong>Purpose:</strong> Compute the smallest rectangle that contains both inputs. These methods are
+                functionally equivalent and return a new rect that encompasses the original rect and another rect or
+                point.</p>
 
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final a = Rect.fromLTWH(20, 20, 60, 60);<br>
-final b = Rect.fromLTWH(120, 50, 40, 40);<br>
-<br>
-final union = a.expandToInclude(b); // same as a.union(b)<br>
-                </code>
+            <h4><code>expandToInclude(Rect other) → Rect</code></h4>
+            <p><strong>Purpose:</strong> Expand the current rectangle to include another rectangle or point.</p>
+            <p><strong>What it does:</strong> Returns a new rectangle that is the smallest possible rectangle containing
+                both the original rectangle and the other rectangle/point.</p>
+            <p><strong>Mathematical calculation:</strong></p>
+            <ul>
+                <li>New <code>left = min(rect1.left, rect2.left)</code></li>
+                <li>New <code>top = min(rect1.top, rect2.top)</code></li>
+                <li>New <code>right = max(rect1.right, rect2.right)</code></li>
+                <li>New <code>bottom = max(rect1.bottom, rect2.bottom)</code></li>
+            </ul>
+            <p><strong>Special case:</strong> To include a point, create a zero-size rect at that point:
+                <code>Rect.fromLTWH(point.dx, point.dy, 0, 0)</code>
+            </p>
+
+            <h4><code>union(Rect other) → Rect</code></h4>
+            <p><strong>Purpose:</strong> Calculate the union of two rectangles (same as <code>expandToInclude</code>).
+            </p>
+            <p><strong>What it does:</strong> Returns the smallest rectangle that contains both rectangles. This is an
+                alias for <code>expandToInclude</code> - they produce identical results.</p>
+
+            <p><strong>Relationship between methods:</strong></p>
+            <ul>
+                <li><code>expandToInclude()</code> and <code>union()</code> are functionally identical</li>
+                <li>Both return a new rect that encompasses both input rects</li>
+                <li>Use whichever name is more semantically clear for your use case</li>
+                <li>If the other rect is already contained within the original, the result equals the original</li>
+            </ul>
+
+            <p><strong>Common use cases:</strong></p>
+            <ul>
+                <li>Calculating bounding boxes for multiple elements</li>
+                <li>Expanding rectangles to include points or other shapes</li>
+                <li>Layout calculations (finding container sizes)</li>
+                <li>Collision detection (finding outer bounds)</li>
+                <li>Viewport calculations</li>
+                <li>Clipping region calculations</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li>Both methods return a <strong>new</strong> Rect - they don't modify the original</li>
+                    <li>The result is always the smallest rectangle that contains both inputs</li>
+                    <li>If one rect is completely inside the other, the result is the larger rect</li>
+                    <li>To include a point, create a zero-size rect: <code>Rect.fromLTWH(x, y, 0, 0)</code></li>
+                    <li><code>expandToInclude()</code> and <code>union()</code> are equivalent - use either one</li>
+                    <li>The union always has dimensions: <code>width = max(right) - min(left)</code> and
+                        <code>height = max(bottom) - min(top)</code>
+                    </li>
+                </ul>
             </div>
-        </section>
 
-        <section class="section">
-            <h2>🎯 Hit‑Testing with Rect</h2>
-
-            <h3><code>contains(Offset point)</code></h3>
-            <p><strong>Purpose:</strong> Check if a point lies inside the rect.</p>
-
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final rect = Rect.fromLTWH(40, 40, 120, 80);<br>
-&nbsp;&nbsp;final touch = const Offset(100, 70);<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;// Example 1: expandToInclude() method (Top)<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;final originalRect = Rect.fromLTWH(20, 20, 80, 50);<br>
+&nbsp;&nbsp;final pointToInclude = Offset(150, 60);<br>
 <br>
-&nbsp;&nbsp;final inside = rect.contains(touch);<br>
+&nbsp;&nbsp;// Expand rectangle to include the point<br>
+&nbsp;&nbsp;// Create a zero-size rectangle at the point, then expand to include it<br>
+&nbsp;&nbsp;final pointRect = Rect.fromLTWH(pointToInclude.dx, pointToInclude.dy, 0, 0);<br>
+&nbsp;&nbsp;final expandedRect = originalRect.expandToInclude(pointRect);<br>
 <br>
-&nbsp;&nbsp;canvas.drawRect(rect, Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = inside ? Colors.green.withOpacity(0.3)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;: Colors.red.withOpacity(0.3));<br>
+&nbsp;&nbsp;// Draw original rectangle<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;originalRect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw expanded rectangle<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;expandedRect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.purple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw the point to include<br>
+&nbsp;&nbsp;canvas.drawCircle(pointToInclude, 6, Paint()..color = Colors.red);<br>
+<br>
+&nbsp;&nbsp;// Draw text label for Example 1<br>
+&nbsp;&nbsp;_drawText(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Example 1: expandToInclude() method\nPurple = expanded to include red point',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointToInclude.translate(0, 40),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;// Example 1: expandToInclude() method (Top)<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;final originalRect2 = Rect.fromLTWH(20, 220, 80, 50);<br>
+&nbsp;&nbsp;final pointToInclude2 = Offset(60, 160);<br>
+<br>
+&nbsp;&nbsp;// Expand rectangle to include the point<br>
+&nbsp;&nbsp;// Create a zero-size rectangle at the point, then expand to include it<br>
+&nbsp;&nbsp;final pointRect2 = Rect.fromLTWH(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointToInclude2.dx,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointToInclude2.dy,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;final expandedRect2 = originalRect2.expandToInclude(pointRect2);<br>
+<br>
+&nbsp;&nbsp;// Draw original rectangle<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;originalRect2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw expanded rectangle<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;expandedRect2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.purple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw the point to include<br>
+&nbsp;&nbsp;canvas.drawCircle(pointToInclude2, 6, Paint()..color = Colors.red);<br>
+<br>
+&nbsp;&nbsp;// Draw text label for Example 1<br>
+&nbsp;&nbsp;_drawText(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Example 1: expandToInclude() method\nPurple = expanded to include red point',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pointToInclude.translate(0, 40),<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;// Example 2: union() method (Bottom)<br>
+&nbsp;&nbsp;// ============================================<br>
+&nbsp;&nbsp;final rectA = Rect.fromLTWH(20, size.height * 0.5, 80, 50);<br>
+&nbsp;&nbsp;final rectB = Rect.fromLTWH(120, size.height * 0.55, 80, 50);<br>
+<br>
+&nbsp;&nbsp;// Calculate union rectangle (smallest rect containing both)<br>
+&nbsp;&nbsp;// Manually calculate: find min left/top and max right/bottom<br>
+&nbsp;&nbsp;final unionRect = Rect.fromLTRB(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rectA.left &lt; rectB.left ? rectA.left : rectB.left,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rectA.top &lt; rectB.top ? rectA.top : rectB.top,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rectA.right &gt; rectB.right ? rectA.right : rectB.right,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rectA.bottom &gt; rectB.bottom ? rectA.bottom : rectB.bottom,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw union rectangle (filled with semi-transparent color)<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unionRect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.orange.withValues(alpha: 0.3)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill,<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unionRect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.orange<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw original rectangles<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rectA,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rectB,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw text label for Example 2<br>
+&nbsp;&nbsp;_drawText(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;canvas,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'Example 2: union() method\nOrange = smallest rect containing both',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unionRect.bottomLeft.translate(unionRect.width / 2, 20),<br>
+&nbsp;&nbsp;);<br>
 }<br>
-                </code>
-            </div>
-
-            <h3><code>Rect.lerp(Rect? a, Rect? b, double t)</code></h3>
-            <p><strong>Purpose:</strong> Linearly interpolate between two rects. Very useful in animations.</p>
-
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final start = Rect.fromLTWH(20, 20, 80, 80);<br>
-final end   = Rect.fromLTWH(120, 80, 160, 160);<br>
 <br>
-final mid = Rect.lerp(start, end, 0.5)!; // halfway rect<br>
-                </code>
+void _drawText(Canvas canvas, String text, Offset position) {<br>
+&nbsp;&nbsp;final painter = TextPainter(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text: TextSpan(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text: text,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style: const TextStyle(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: Colors.black,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize: 16,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight: FontWeight.bold,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textAlign: TextAlign.center,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;textDirection: TextDirection.ltr,<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;painter.layout();<br>
+&nbsp;&nbsp;painter.paint(canvas, Offset(position.dx - painter.width / 2, position.dy));<br>
+}<br>
+                        </code>
+                    </div>
+                </div>
+
+                <div class="property-image">
+                    <img src="../assets/expand-to-include-union.png"
+                        alt="Flutter Rect expandToInclude and union visual example">
+                    <p class="image-caption">Visual guide demonstrating <code>expandToInclude()</code> and
+                        <code>union()</code> methods. Example 1 (top) shows two scenarios where a blue rectangle is
+                        expanded (purple outline) to include a red point. Example 2 (bottom) shows two rectangles (blue
+                        and green) with their union represented by an orange-filled rectangle, demonstrating how
+                        <code>union()</code> calculates the smallest rectangle containing both.
+                    </p>
+                </div>
             </div>
         </section>
+
+
 
         <section class="section">
             <h2>📋 Rect API Reference Table</h2>

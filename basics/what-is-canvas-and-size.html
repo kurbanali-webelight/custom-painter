@@ -327,219 +327,36 @@ void paint(Canvas canvas, Size size) {<br>
                 <li>Your graphics appear on screen</li>
             </ol>
 
-            <h3>Coordinate System</h3>
-            <ul>
-                <li>Origin <code>(0, 0)</code> is at the <strong>top-left corner</strong></li>
-                <li>X increases going <strong>right</strong> →</li>
-                <li>Y increases going <strong>down</strong> ↓</li>
-                <li>Units are <strong>logical pixels</strong> (Flutter handles device pixel density)</li>
-            </ul>
-            <section class="section">
 
-                <div class="example-images">
-                    <div class="example-item">
-                        <img src="../assets/coordinates_example.png" alt="Flutter Canvas Visual Guide">
-                        <p class="image-caption">Flutter Canvas: Your Guide to 2D Drawing</p>
-                    </div>
-                </div>
-            </section>
 
+            <h3>Canvas Methods Overview</h3>
             <p>
-                Here's a detailed reference of commonly used <strong>Canvas</strong> methods. Each method receives the
+                Canvas provides a rich set of methods for drawing shapes, paths, images, and text. Each method receives
+                the
                 current Canvas state (transformations, clip, etc.) and draws into the active painting region of your
                 <code>CustomPaint</code>.
             </p>
-
-            <h3><code>clipPath</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void clipPath(Path path, { bool doAntiAlias = true })<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Restricts subsequent drawing operations to only appear within the given
-                <code>Path</code> shape.
+            <p><strong>Main categories of Canvas methods:</strong></p>
+            <ul>
+                <li><strong>Clipping methods:</strong> <code>clipPath</code>, <code>clipRect</code>,
+                    <code>clipRRect</code> - restrict drawing to specific regions
+                </li>
+                <li><strong>Shape drawing methods:</strong> <code>drawCircle</code>, <code>drawRect</code>,
+                    <code>drawRRect</code>, <code>drawOval</code>, <code>drawArc</code>, <code>drawLine</code> - draw
+                    primitive shapes
+                </li>
+                <li><strong>Path drawing methods:</strong> <code>drawPath</code>, <code>drawPoints</code> - draw custom
+                    shapes and paths</li>
+                <li><strong>Image drawing methods:</strong> <code>drawImage</code>, <code>drawImageRect</code>,
+                    <code>drawImageNine</code> - render images
+                </li>
+                <li><strong>Fill methods:</strong> <code>drawColor</code>, <code>drawPaint</code> - fill the canvas</li>
+                <li><strong>Effect methods:</strong> <code>drawShadow</code> - add visual effects</li>
+            </ul>
+            <p>
+                We will learn them in this section, see the <a href="primitive-shapes.html">Canvas
+                    Drawing APIs</a> page.
             </p>
-            <p><strong>Parameters:</strong></p>
-            <ul>
-                <li><code>path</code> – The <code>Path</code> defining the clipping region.</li>
-                <li><code>doAntiAlias</code> – Whether to smooth the edges (default: <code>true</code>).</li>
-            </ul>
-            <p><strong>What it does:</strong></p>
-            <ul>
-                <li>Creates a mask from the path.</li>
-                <li>Any drawing outside this path becomes invisible.</li>
-                <li>Clips accumulate (new clips intersect with existing ones).</li>
-                <li>Use with <code>save()</code>/<code>restore()</code> to limit clip scope.</li>
-            </ul>
-            <p><strong>Common uses:</strong> circular image masks, complex shape viewports, masking effects. Clipping is
-                relatively expensive, so use it sparingly.</p>
-
-            <h3><code>clipRect</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void clipRect(Rect rect, { ClipOp clipOp = ClipOp.intersect, bool doAntiAlias = true })<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Restricts drawing to a rectangular region.</p>
-            <ul>
-                <li><code>rect</code> – Rectangle defining the clip region.</li>
-                <li><code>clipOp</code> – How to combine with existing clips (usually
-                    <code>ClipOp.intersect</code>).
-                </li>
-                <li><code>doAntiAlias</code> – Smooth edges (default: <code>true</code>).</li>
-            </ul>
-            <p><strong>Common uses:</strong> rectangular viewports, preventing drawing outside bounds, basic
-                optimization.</p>
-
-            <h3><code>clipRRect</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void clipRRect(RRect rrect, { bool doAntiAlias = true })<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Restricts drawing to a rounded-rectangle region.</p>
-            <p><strong>Common uses:</strong> rounded card masks, rounded image clipping, pill-shaped viewports.</p>
-
-            <h3><code>drawArc</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawArc(Rect rect, double startAngle, double sweepAngle,<br>
-&nbsp;&nbsp;bool useCenter, Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Draws an arc (portion of an ellipse or circle).</p>
-            <ul>
-                <li><code>rect</code> – Bounding box for the circle/ellipse.</li>
-                <li><code>startAngle</code> – Start angle in radians (0 = 3 o'clock).</li>
-                <li><code>sweepAngle</code> – How far to sweep in radians (positive = clockwise).</li>
-                <li><code>useCenter</code> – <code>true</code> draws a pie slice, <code>false</code> draws just the
-                    arc.</li>
-            </ul>
-            <p><strong>Common uses:</strong> circular progress indicators, pie charts, gauge dials, Pac‑Man shapes.</p>
-
-            <h3><code>drawCircle</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawCircle(Offset c, double radius, Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Draws a perfect circle at the given center with the given radius.</p>
-            <p><strong>Common uses:</strong> dots, indicators, avatars, circular buttons, decorative shapes.</p>
-
-            <h3><code>drawLine</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawLine(Offset p1, Offset p2, Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Draws a straight line between two points.</p>
-            <p><strong>Common uses:</strong> axes, grid lines, separators, chart lines, connectors.</p>
-
-            <h3><code>drawRect</code> and <code>drawRRect</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawRect(Rect rect, Paint paint)<br>
-void drawRRect(RRect rrect, Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Draws rectangles and rounded rectangles.</p>
-            <ul>
-                <li><code>drawRect</code> – plain rectangle (super fast, great for grids, bars, backgrounds).</li>
-                <li><code>drawRRect</code> – rounded rectangle (cards, buttons, modern UI surfaces).</li>
-            </ul>
-
-            <h3><code>drawPath</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawPath(Path path, Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Draws an arbitrary shape defined by a <code>Path</code>.</p>
-            <p><strong>Common uses:</strong> custom polygons, curves, wave shapes, freehand drawing, signatures.</p>
-
-            <h3><code>drawPoints</code> / <code>drawRawPoints</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawPoints(PointMode pointMode, List&lt;Offset&gt; points, Paint paint)<br>
-void drawRawPoints(PointMode pointMode, Float32List points, Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Efficiently draws many points, lines, or polygons in one call.</p>
-            <p><strong>Common uses:</strong> scatter plots, line graphs, particle systems, grids.</p>
-
-            <h3><code>drawImage</code>, <code>drawImageRect</code>, <code>drawImageNine</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawImage(ui.Image image, Offset offset, Paint paint)<br>
-void drawImageRect(ui.Image image, Rect src, Rect dst, Paint paint)<br>
-void drawImageNine(ui.Image image, Rect center, Rect dst, Paint paint)<br>
-                </code>
-            </div>
-            <ul>
-                <li><strong><code>drawImage</code></strong> – draw an image at a position, 1:1 size.</li>
-                <li><strong><code>drawImageRect</code></strong> – draw part of an image, scaled into a destination rect.
-                </li>
-                <li><strong><code>drawImageNine</code></strong> – nine‑patch rendering for scalable borders/backgrounds.
-                </li>
-            </ul>
-
-            <h3><code>drawColor</code> and <code>drawPaint</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawColor(Color color, BlendMode blendMode)<br>
-void drawPaint(Paint paint)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Fill the entire canvas (or clip region) with a color or paint.
-            </p>
-            <ul>
-                <li><code>drawColor</code> – solid color fill using a specific <code>BlendMode</code>.</li>
-                <li><code>drawPaint</code> – fill using a full <code>Paint</code> (gradients, shaders, etc.).</li>
-            </ul>
-
-            <h3><code>drawShadow</code></h3>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-void drawShadow(Path path, Color color, double elevation, bool transparentOccluder)<br>
-                </code>
-            </div>
-            <p><strong>Purpose:</strong> Draws a Material‑style drop shadow for the given shape.</p>
         </section>
         <section class="section">
             <h2>📐 Part 2: The <code>Size</code> Object</h2>

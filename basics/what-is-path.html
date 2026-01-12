@@ -410,27 +410,45 @@ void paint(Canvas canvas, Size size) {<br>
                         <button class="copy-button" onclick="copyCode(this)" title="Copy code">
                             <span class="copy-text">Copy</span>
                         </button>
-                        <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final path = Path();<br>
-&nbsp;&nbsp;final paint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
-<br>
-&nbsp;&nbsp;// Draw a triangle<br>
-&nbsp;&nbsp;path.moveTo(100, 50); // Top point<br>
-&nbsp;&nbsp;canvas.drawCircle(Offset(100, 50), 5, Paint()..color = Colors.red.withAlpha(180));<br>
-&nbsp;&nbsp;path.lineTo(50, 150); // Bottom left<br>
-&nbsp;&nbsp;canvas.drawCircle(Offset(50, 150), 10, Paint()..color = Colors.red.withAlpha(180));<br>
-&nbsp;&nbsp;path.lineTo(150, 150); // Bottom right<br>
-&nbsp;&nbsp;canvas.drawCircle(Offset(150, 150), 15, Paint()..color = Colors.red.withAlpha(180));<br>
-&nbsp;&nbsp;path.close(); // Close back to start<br>
-<br>
-&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
-}<br>
+                        <code class="language-dart">
+                        @override<br>
+                        void paint(Canvas canvas, Size size) {<br>
+                        &nbsp;&nbsp;final path = Path();<br>
+                        &nbsp;&nbsp;final paint = Paint()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
+                        <br>
+                        &nbsp;&nbsp;final startPoint = Offset(100, 50);<br>
+                        <br>
+                        &nbsp;&nbsp;// Draw a triangle<br>
+                        &nbsp;&nbsp;path.moveTo(startPoint.dx, startPoint.dy); // Top point<br>
+                        &nbsp;&nbsp;canvas.drawCircle(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(100, 50),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;5,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Paint()..color = Colors.red.withAlpha(180),<br>
+                        &nbsp;&nbsp;);<br>
+                        <br>
+                        &nbsp;&nbsp;path.lineTo(50, 150); // Bottom left<br>
+                        &nbsp;&nbsp;canvas.drawCircle(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(50, 150),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;10,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Paint()..color = Colors.red.withAlpha(180),<br>
+                        &nbsp;&nbsp;);<br>
+                        <br>
+                        &nbsp;&nbsp;path.lineTo(150, 150); // Bottom right<br>
+                        &nbsp;&nbsp;canvas.drawCircle(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(150, 150),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;15,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Paint()..color = Colors.red.withAlpha(180),<br>
+                        &nbsp;&nbsp;);<br>
+                        <br>
+                        &nbsp;&nbsp;path.lineTo(startPoint.dx, startPoint.dy); // Close back to start<br>
+                        <br>
+                        &nbsp;&nbsp;canvas.drawPath(path, paint);<br>
+                        }<br>
                         </code>
+
                     </div>
                 </div>
 
@@ -664,50 +682,71 @@ void paint(Canvas canvas, Size size) {<br>
                 </div>
             </div>
 
-            <h3><code>addRect(Rect rect)</code></h3>
-            <p><strong>Purpose:</strong> Add a rectangle to the path as a closed contour.</p>
-            <p><strong>Common uses:</strong> Combining rectangles with other shapes, creating complex paths from simple
-                shapes.</p>
 
-            <div class="property-layout">
-                <div class="property-code">
-                    <div class="code-block">
-                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                            <span class="copy-text">Copy</span>
-                        </button>
-                        <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final path = Path();<br>
-&nbsp;&nbsp;final paint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
-<br>
-&nbsp;&nbsp;// Add a rectangle to the path<br>
-&nbsp;&nbsp;path.addRect(Rect.fromLTWH(50, 50, 100, 80));<br>
-<br>
-&nbsp;&nbsp;// Add another rectangle<br>
-&nbsp;&nbsp;path.addRect(Rect.fromLTWH(200, 50, 100, 80));<br>
-<br>
-&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
-}<br>
-                        </code>
-                    </div>
-                </div>
+            <h3><code>arcTo(Rect rect, double startAngle, double sweepAngle, bool forceMoveTo)</code></h3>
+            <p><strong>Purpose:</strong> Add an arc (portion of a circle or ellipse) to the path. The arc is part of an
+                oval defined by the bounding rectangle.</p>
 
-                <div class="property-image">
-                    <img src="../assets/path_add_rect.png" alt="Flutter Path addRect visual example">
-                    <p class="image-caption">Visual guide showing how <code>addRect()</code> adds rectangles to the
-                        path.
-                    </p>
-                </div>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>Rect rect</code> - The bounding rectangle that defines the oval. The arc will be part of this
+                    oval. If width == height, it's a circle; otherwise, it's an ellipse.</li>
+                <li><code>double startAngle</code> - The starting angle in <strong>radians</strong> where the arc
+                    begins.
+                    <code>0</code> radians = 3 o'clock (right), <code>π/2</code> = 6 o'clock (down), <code>π</code> =
+                    9 o'clock (left), <code>3π/2</code> = 12 o'clock (up).
+                </li>
+                <li><code>double sweepAngle</code> - How far to sweep the arc in <strong>radians</strong>. Positive
+                    values
+                    sweep clockwise, negative values sweep counter-clockwise. <code>2π</code> = full circle,
+                    <code>π</code> = half circle.
+                </li>
+                <li><code>bool forceMoveTo</code> - If <code>true</code>, starts a new contour (like calling
+                    <code>moveTo</code> first). If <code>false</code>, connects from the current point to the arc start
+                    with a line.
+                </li>
+            </ul>
+
+            <p><strong>What happens:</strong></p>
+            <ul>
+                <li>The arc is drawn as part of an oval (circle or ellipse) defined by the bounding rectangle</li>
+                <li>If <code>forceMoveTo</code> is <code>false</code> and there's a current point, a line is drawn from
+                    the current point to the start of the arc</li>
+                <li>The arc sweeps from <code>startAngle</code> for <code>sweepAngle</code> radians</li>
+                <li>The arc becomes part of the current path contour</li>
+            </ul>
+
+            <p><strong>Angle reference:</strong></p>
+            <ul>
+                <li><code>0</code> radians = 3 o'clock (pointing right →)</li>
+                <li><code>π/2</code> (1.5708) = 6 o'clock (pointing down ↓)</li>
+                <li><code>π</code> (3.14159) = 9 o'clock (pointing left ←)</li>
+                <li><code>3π/2</code> (4.7124) = 12 o'clock (pointing up ↑)</li>
+                <li><code>2π</code> (6.28318) = full circle (back to 3 o'clock)</li>
+            </ul>
+
+            <p><strong>Common use cases:</strong></p>
+            <ul>
+                <li>Drawing pie charts and circular progress indicators</li>
+                <li>Creating curved shapes and decorative arcs</li>
+                <li>Drawing partial circles (semicircles, quarter circles)</li>
+                <li>Creating rounded corners and curved borders</li>
+                <li>Gauge dials and circular meters</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Key Points:</strong>
+                <ul>
+                    <li>Angles are in <strong>radians</strong>, not degrees. Use <code>degrees * π / 180</code> to
+                        convert</li>
+                    <li>Positive <code>sweepAngle</code> = clockwise, negative = counter-clockwise</li>
+                    <li>If <code>forceMoveTo = false</code>, a line connects from current point to arc start</li>
+                    <li>If <code>forceMoveTo = true</code>, the arc starts a new contour</li>
+                    <li>The rectangle defines the oval's bounds - use square rects for circles</li>
+                    <li>For a full circle, use <code>sweepAngle = 2 * π</code> (approximately 6.28318)</li>
+                </ul>
             </div>
 
-            <h3><code>addOval(Rect rect)</code></h3>
-            <p><strong>Purpose:</strong> Add an oval (ellipse) to the path. The rect defines the bounding box of the
-                oval.</p>
-            <p><strong>Common uses:</strong> Adding circles and ellipses to paths, creating rounded shapes.</p>
-
             <div class="property-layout">
                 <div class="property-code">
                     <div class="code-block">
@@ -717,296 +756,67 @@ void paint(Canvas canvas, Size size) {<br>
                         <code>
 @override<br>
 void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;final path = Path();<br>
-&nbsp;&nbsp;final paint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
-<br>
-&nbsp;&nbsp;// Add an oval (circle when width == height)<br>
-&nbsp;&nbsp;path.addOval(Rect.fromLTWH(50, 50, 100, 100));<br>
-<br>
-&nbsp;&nbsp;// Add an ellipse<br>
-&nbsp;&nbsp;path.addOval(Rect.fromLTWH(200, 50, 150, 80));<br>
-<br>
-&nbsp;&nbsp;canvas.drawPath(path, paint);<br>
-}<br>
-                        </code>
-                    </div>
-                </div>
-
-                <div class="property-image">
-                    <img src="../assets/path_add_oval.png" alt="Flutter Path addOval visual example">
-                    <p class="image-caption">Visual guide showing how <code>addOval()</code> adds ovals and ellipses to
-                        the path.</p>
-                </div>
-            </div>
-
-            <h3><code>close()</code></h3>
-            <p><strong>Purpose:</strong> Close the current contour by drawing a line from the current point back to the
-                starting point.</p>
-            <p><strong>Common uses:</strong> Closing polygons, creating filled shapes, ensuring paths are complete.</p>
-
-            <div class="property-layout">
-                <div class="property-code">
-                    <div class="code-block">
-                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                            <span class="copy-text">Copy</span>
-                        </button>
-                        <code>
-@override<br>
-void paint(Canvas canvas, Size size) {<br>
-&nbsp;&nbsp;// Define points for a triangle/polygon<br>
-&nbsp;&nbsp;const startPoint = Offset(150, 50); // Top point<br>
-&nbsp;&nbsp;const point2 = Offset(50, 200); // Bottom left<br>
-&nbsp;&nbsp;const point3 = Offset(250, 200); // Bottom right<br>
-<br>
-&nbsp;&nbsp;// Create path and draw lines<br>
 &nbsp;&nbsp;final path = Path();<br>
 &nbsp;&nbsp;final paint = Paint()<br>
 &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
 &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
 &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 3;<br>
 <br>
-&nbsp;&nbsp;path.moveTo(startPoint.dx, startPoint.dy);<br>
-&nbsp;&nbsp;path.lineTo(point2.dx, point2.dy);<br>
-&nbsp;&nbsp;path.lineTo(point3.dx, point3.dy);<br>
-&nbsp;&nbsp;path.close(); // Closes the path by drawing a line back to startPoint<br>
+&nbsp;&nbsp;// Define the bounding rectangle for the oval<br>
+&nbsp;&nbsp;final rect = Rect.fromLTWH(50, 50, 200, 200);<br>
 <br>
+&nbsp;&nbsp;// Start from a point outside the arc<br>
+&nbsp;&nbsp;path.moveTo(50, 150);<br>
+<br>
+&nbsp;&nbsp;// Add an arc: start at 0 radians (3 o'clock), sweep π radians (half circle)<br>
+&nbsp;&nbsp;// forceMoveTo = false means connect from current point to arc start<br>
+&nbsp;&nbsp;path.arcTo(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rect,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;0, // startAngle: 0 radians = 3 o'clock (right)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.14159, // sweepAngle: π radians = 180 degrees (half circle)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;false, // forceMoveTo: connect from current point<br>
+&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;// Draw the path<br>
 &nbsp;&nbsp;canvas.drawPath(path, paint);<br>
 <br>
-&nbsp;&nbsp;// Draw reference lines to show the path structure<br>
-&nbsp;&nbsp;final dashedLinePaint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey.withValues(alpha: 0.5)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1;<br>
-<br>
-&nbsp;&nbsp;// Line from start to point2<br>
-&nbsp;&nbsp;final line1 = Path()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(startPoint.dx, startPoint.dy)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(point2.dx, point2.dy);<br>
-&nbsp;&nbsp;canvas.drawPath(line1, dashedLinePaint);<br>
-<br>
-&nbsp;&nbsp;// Line from point2 to point3<br>
-&nbsp;&nbsp;final line2 = Path()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(point2.dx, point2.dy)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(point3.dx, point3.dy);<br>
-&nbsp;&nbsp;canvas.drawPath(line2, dashedLinePaint);<br>
-<br>
-&nbsp;&nbsp;// Highlight the closing line (from point3 back to start) with a different color<br>
-&nbsp;&nbsp;final closingLinePaint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2;<br>
-&nbsp;&nbsp;final closingLine = Path()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..moveTo(point3.dx, point3.dy)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..lineTo(startPoint.dx, startPoint.dy);<br>
-&nbsp;&nbsp;canvas.drawPath(closingLine, closingLinePaint);<br>
-<br>
-&nbsp;&nbsp;// Draw reference points at all vertices<br>
-&nbsp;&nbsp;// Start point (green) - also the closing point<br>
-&nbsp;&nbsp;final startPointPaint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
-&nbsp;&nbsp;canvas.drawCircle(startPoint, 6, startPointPaint);<br>
-&nbsp;&nbsp;canvas.drawCircle(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;startPoint,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
+&nbsp;&nbsp;// Draw the bounding rectangle (for reference)<br>
+&nbsp;&nbsp;canvas.drawRect(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rect,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.grey.withValues(alpha: 0.3)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 1,<br>
 &nbsp;&nbsp;);<br>
 <br>
-&nbsp;&nbsp;// Point 2 (red)<br>
-&nbsp;&nbsp;final point2Paint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
-&nbsp;&nbsp;canvas.drawCircle(point2, 6, point2Paint);<br>
-&nbsp;&nbsp;canvas.drawCircle(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;point2,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
-&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;// Draw center point<br>
+&nbsp;&nbsp;final center = rect.center;<br>
 <br>
-&nbsp;&nbsp;// Point 3 (purple)<br>
-&nbsp;&nbsp;final point3Paint = Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.purple<br>
-&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
-&nbsp;&nbsp;canvas.drawCircle(point3, 6, point3Paint);<br>
-&nbsp;&nbsp;canvas.drawCircle(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;point3,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;6,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Paint()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.white<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 2,<br>
-&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;// Draw start angle indicator (3 o'clock)<br>
+&nbsp;&nbsp;final startPoint = Offset(center.dx + rect.width / 2, center.dy);<br>
+&nbsp;&nbsp;canvas.drawCircle(startPoint, 8, Paint()..color = Colors.green);<br>
+<br>
+&nbsp;&nbsp;// Draw end angle indicator (9 o'clock, after π sweep)<br>
+&nbsp;&nbsp;final endPoint = Offset(center.dx - rect.width / 2, center.dy);<br>
+&nbsp;&nbsp;canvas.drawCircle(endPoint, 8, Paint()..color = Colors.orange);<br>
 }<br>
                         </code>
                     </div>
                 </div>
 
                 <div class="property-image">
-                    <img src="../assets/close_method.png" alt="Flutter Path close visual example">
-                    <p class="image-caption">Visual guide showing how <code>close()</code> connects the last point back
-                        to the starting point. Added reference points to visualize the path: <strong>Green</strong>
-                        circle indicates the start point (also the closing point), <strong>Red</strong> circle shows
-                        point 2, and <strong>Purple</strong> circle shows point 3. Each point has a white border for
-                        visibility. Helper lines (grey) show the path structure, and the <strong>red line</strong>
-                        highlights the closing line that <code>close()</code> automatically draws from the last point
-                        back to the start point.</p>
+                    <img src="../assets/arc-to-method.png" alt="Flutter Path arcTo visual example">
+                    <p class="image-caption">Visual guide showing how <code>arcTo()</code> creates an arc. The blue arc
+                        starts at 0 radians (3 o'clock, marked with green circle) and sweeps π radians (180 degrees)
+                        to 9 o'clock (marked with orange circle). The grey rectangle shows the bounding box that
+                        defines the oval. The line from the starting point (left) to the arc demonstrates
+                        <code>forceMoveTo = false</code> behavior, which connects from the current point to the arc
+                        start.
+                    </p>
                 </div>
             </div>
-        </section>
 
-        <section class="section">
-            <h2>🔧 Other Important Methods</h2>
 
-            <h3><code>relativeLineTo(double dx, double dy)</code></h3>
-            <p><strong>Purpose:</strong> Draw a line relative to the current point (adds dx, dy to current position).
-            </p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.moveTo(50, 50);<br>
-path.relativeLineTo(100, 0);  // Move 100 right from current point<br>
-path.relativeLineTo(0, 50);   // Move 50 down from current point<br>
-                </code>
-            </div>
-
-            <h3><code>addRRect(RRect rrect)</code></h3>
-            <p><strong>Purpose:</strong> Add a rounded rectangle to the path.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.addRRect(RRect.fromRectAndRadius(<br>
-&nbsp;&nbsp;Rect.fromLTWH(50, 50, 100, 80),<br>
-&nbsp;&nbsp;Radius.circular(10),<br>
-));<br>
-                </code>
-            </div>
-
-            <h3><code>addPolygon(List&lt;Offset&gt; points, bool close)</code></h3>
-            <p><strong>Purpose:</strong> Add a polygon from a list of points. If <code>close</code> is true, connects
-                the last point to the first.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.addPolygon([<br>
-&nbsp;&nbsp;Offset(50, 50),<br>
-&nbsp;&nbsp;Offset(150, 50),<br>
-&nbsp;&nbsp;Offset(150, 150),<br>
-&nbsp;&nbsp;Offset(50, 150),<br>
-], true); // true = close the polygon<br>
-                </code>
-            </div>
-
-            <h3><code>addPath(Path path, Offset offset)</code></h3>
-            <p><strong>Purpose:</strong> Add another path to this path, optionally offset by the given offset.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path1 = Path();<br>
-path1.addRect(Rect.fromLTWH(0, 0, 50, 50));<br>
-<br>
-final path2 = Path();<br>
-path2.addPath(path1, Offset(100, 100)); // Add path1 at offset<br>
-                </code>
-            </div>
-
-            <h3><code>reset()</code></h3>
-            <p><strong>Purpose:</strong> Clear all path data, resetting it to an empty path.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.moveTo(50, 50);<br>
-path.lineTo(100, 100);<br>
-path.reset(); // Path is now empty<br>
-                </code>
-            </div>
-
-            <h3><code>shift(Offset offset)</code></h3>
-            <p><strong>Purpose:</strong> Move the entire path by the given offset.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.addRect(Rect.fromLTWH(0, 0, 50, 50));<br>
-path.shift(Offset(100, 100)); // Move path 100 right, 100 down<br>
-                </code>
-            </div>
-
-            <h3><code>contains(Offset point)</code></h3>
-            <p><strong>Purpose:</strong> Check if a point is inside the path (hit testing).</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.addRect(Rect.fromLTWH(50, 50, 100, 100));<br>
-<br>
-final point = Offset(75, 75);<br>
-if (path.contains(point)) {<br>
-&nbsp;&nbsp;// Point is inside the path<br>
-}<br>
-                </code>
-            </div>
-
-            <h3><code>arcTo(Rect rect, double startAngle, double sweepAngle, bool forceMoveTo)</code></h3>
-            <p><strong>Purpose:</strong> Add an arc to the path. The arc is part of an oval defined by the rect.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.arcTo(<br>
-&nbsp;&nbsp;Rect.fromLTWH(50, 50, 100, 100),<br>
-&nbsp;&nbsp;0,        // Start angle in radians<br>
-&nbsp;&nbsp;3.14159,  // Sweep angle (half circle)<br>
-&nbsp;&nbsp;false,    // Don't force moveTo<br>
-);<br>
-                </code>
-            </div>
-
-            <h3><code>arcToPoint(Offset endRadius, {Radius radius, double rotation, bool largeArc, bool clockwise})</code>
-            </h3>
-            <p><strong>Purpose:</strong> Add an arc from the current point to a target point.</p>
-            <div class="code-block">
-                <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                    <span class="copy-text">Copy</span>
-                </button>
-                <code>
-final path = Path();<br>
-path.moveTo(50, 100);<br>
-path.arcToPoint(<br>
-&nbsp;&nbsp;Offset(150, 100),<br>
-&nbsp;&nbsp;radius: Radius.circular(50),<br>
-&nbsp;&nbsp;largeArc: false,<br>
-&nbsp;&nbsp;clockwise: true,<br>
-);<br>
-                </code>
-            </div>
         </section>
 
         <section class="section">

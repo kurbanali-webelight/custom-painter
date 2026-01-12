@@ -287,6 +287,35 @@
             transform: translateY(-2px);
         }
 
+        .example-images {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .example-item img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-item .image-caption {
+            margin-top: 10px;
+            color: #6c757d;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
         @media (max-width: 900px) {
             .property-layout {
                 flex-direction: column;
@@ -389,6 +418,137 @@
                 </div>
             </div>
 
+            <hr>
+
+            <h3><code>style</code></h3>
+            <p><strong>Type:</strong> <code>PaintingStyle style</code></p>
+            <p><strong>Definition:</strong> Determines whether shapes are filled or only outlined (stroked).
+                This is
+                one
+                of the most important Paint properties.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li><code>PaintingStyle.fill</code> (default) - Fills the interior of shapes</li>
+                <li><code>PaintingStyle.stroke</code> - Draws only the outline/border</li>
+                <li>Affects all shape drawing operations</li>
+                <li>Changes how <code>strokeWidth</code>, <code>strokeCap</code>, <code>strokeJoin</code> are
+                    applied
+                </li>
+            </ul>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+                                        @override<br>
+                                        void paint(Canvas canvas, Size size) {<br>
+                                        &nbsp;&nbsp;final centerY = size.height / 2;<br>
+                                        &nbsp;&nbsp;const radius = 50.0;<br>
+                                        <br>
+                                        &nbsp;&nbsp;// 1️⃣ Filled circle<br>
+                                        &nbsp;&nbsp;final fillPaint = Paint()<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
+                                        <br>
+                                        &nbsp;&nbsp;canvas.drawCircle(Offset(size.width * 0.35, centerY), radius, fillPaint);<br>
+                                        <br>
+                                        &nbsp;&nbsp;// 2️⃣ Stroked circle<br>
+                                        &nbsp;&nbsp;final strokePaint = Paint()<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 8;<br>
+                                        <br>
+                                        &nbsp;&nbsp;canvas.drawCircle(Offset(size.width * 0.65, centerY), radius, strokePaint);<br>
+                                        }<br>
+                                        </code>
+                    </div>
+                </div>
+                <div class="property-image">
+                    <img src="../assets/style_fill_stroke.png" alt="Flutter Paint style property visual example">
+                    <p class="image-caption">
+                        The filled circle is filled with blue color, and the stroked circle is outlined with red color.
+                    </p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3><code>strokeWidth</code></h3>
+            <p><strong>Type:</strong> <code>double strokeWidth</code></p>
+            <p><strong>Definition:</strong> The thickness of lines and shape outlines when using stroke style.
+                Measured
+                in logical pixels.</p>
+            <p><strong>What Happens:</strong></p>
+            <ul>
+                <li>Controls how thick lines and outlines appear</li>
+                <li>Only visible when <code>style = PaintingStyle.stroke</code></li>
+                <li>Grows outward from the path center</li>
+                <li>Affected by canvas scaling</li>
+                <li>Default is <code>0.0</code> (hairline width)</li>
+            </ul>
+
+            <div class="property-layout">
+                <div class="property-code">
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
+                            <span class="copy-text">Copy</span>
+                        </button>
+                        <code>
+                                    @override<br>
+                                    void paint(Canvas canvas, Size size) {<br>
+                                    &nbsp;&nbsp;final centerY = size.height / 2;<br>
+                                    &nbsp;&nbsp;const spacing = 40.0;<br>
+                                    <br>
+                                    &nbsp;&nbsp;// Thin stroke<br>
+                                    &nbsp;&nbsp;final thinPaint = Paint()<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 4;<br>
+                                    <br>
+                                    &nbsp;&nbsp;canvas.drawLine(<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Offset(40, centerY - spacing),<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width - 40, centerY - spacing),<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;thinPaint,<br>
+                                    &nbsp;&nbsp;);<br>
+                                    <br>
+                                    &nbsp;&nbsp;// Medium stroke<br>
+                                    &nbsp;&nbsp;final mediumPaint = Paint()<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 10;<br>
+                                    <br>
+                                    &nbsp;&nbsp;canvas.drawLine(<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Offset(40, centerY),<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width - 40, centerY),<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;mediumPaint,<br>
+                                    &nbsp;&nbsp;);<br>
+                                    <br>
+                                    &nbsp;&nbsp;// Thick stroke<br>
+                                    &nbsp;&nbsp;final thickPaint = Paint()<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 20;<br>
+                                    <br>
+                                    &nbsp;&nbsp;canvas.drawLine(<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Offset(40, centerY + spacing),<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width - 40, centerY + spacing),<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;thickPaint,<br>
+                                    &nbsp;&nbsp;);<br>
+                                    }<br>
+                                    </code>
+                    </div>
+                </div>
+                <div class="property-image">
+                    <img src="../assets/stroke_width.png" alt="Flutter Paint strokeWidth property visual example">
+                    <p class="image-caption">
+                        The two circles are using different stroke widths. The filled circle is 50 pixels wide, and the
+                        stroked circle is 8 pixels wide.
+                    </p>
+                </div>
+            </div>
             <hr>
 
             <h3><code>isAntiAlias</code></h3>
@@ -765,137 +925,6 @@
                     </p>
                 </div>
             </div>
-
-            <hr>
-
-            <h3><code>strokeWidth</code></h3>
-            <p><strong>Type:</strong> <code>double strokeWidth</code></p>
-            <p><strong>Definition:</strong> The thickness of lines and shape outlines when using stroke style.
-                Measured
-                in logical pixels.</p>
-            <p><strong>What Happens:</strong></p>
-            <ul>
-                <li>Controls how thick lines and outlines appear</li>
-                <li>Only visible when <code>style = PaintingStyle.stroke</code></li>
-                <li>Grows outward from the path center</li>
-                <li>Affected by canvas scaling</li>
-                <li>Default is <code>0.0</code> (hairline width)</li>
-            </ul>
-
-            <div class="property-layout">
-                <div class="property-code">
-                    <div class="code-block">
-                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                            <span class="copy-text">Copy</span>
-                        </button>
-                        <code>
-                        @override<br>
-                        void paint(Canvas canvas, Size size) {<br>
-                        &nbsp;&nbsp;final centerY = size.height / 2;<br>
-                        &nbsp;&nbsp;const spacing = 40.0;<br>
-                        <br>
-                        &nbsp;&nbsp;// Thin stroke<br>
-                        &nbsp;&nbsp;final thinPaint = Paint()<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 4;<br>
-                        <br>
-                        &nbsp;&nbsp;canvas.drawLine(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(40, centerY - spacing),<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width - 40, centerY - spacing),<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;thinPaint,<br>
-                        &nbsp;&nbsp;);<br>
-                        <br>
-                        &nbsp;&nbsp;// Medium stroke<br>
-                        &nbsp;&nbsp;final mediumPaint = Paint()<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.green<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 10;<br>
-                        <br>
-                        &nbsp;&nbsp;canvas.drawLine(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(40, centerY),<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width - 40, centerY),<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;mediumPaint,<br>
-                        &nbsp;&nbsp;);<br>
-                        <br>
-                        &nbsp;&nbsp;// Thick stroke<br>
-                        &nbsp;&nbsp;final thickPaint = Paint()<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 20;<br>
-                        <br>
-                        &nbsp;&nbsp;canvas.drawLine(<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(40, centerY + spacing),<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Offset(size.width - 40, centerY + spacing),<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;thickPaint,<br>
-                        &nbsp;&nbsp;);<br>
-                        }<br>
-                        </code>
-                    </div>
-                </div>
-                <div class="property-image">
-                    <img src="../assets/stroke_width.png" alt="Flutter Paint strokeWidth property visual example">
-                    <p class="image-caption">
-                        The two circles are using different stroke widths. The filled circle is 50 pixels wide, and the
-                        stroked circle is 8 pixels wide.
-                    </p>
-                </div>
-            </div>
-            <hr>
-
-            <h3><code>style</code></h3>
-            <p><strong>Type:</strong> <code>PaintingStyle style</code></p>
-            <p><strong>Definition:</strong> Determines whether shapes are filled or only outlined (stroked).
-                This is
-                one
-                of the most important Paint properties.</p>
-            <p><strong>What Happens:</strong></p>
-            <ul>
-                <li><code>PaintingStyle.fill</code> (default) - Fills the interior of shapes</li>
-                <li><code>PaintingStyle.stroke</code> - Draws only the outline/border</li>
-                <li>Affects all shape drawing operations</li>
-                <li>Changes how <code>strokeWidth</code>, <code>strokeCap</code>, <code>strokeJoin</code> are
-                    applied
-                </li>
-            </ul>
-
-            <div class="property-layout">
-                <div class="property-code">
-                    <div class="code-block">
-                        <button class="copy-button" onclick="copyCode(this)" title="Copy code">
-                            <span class="copy-text">Copy</span>
-                        </button>
-                        <code>
-                @override<br>
-                void paint(Canvas canvas, Size size) {<br>
-                &nbsp;&nbsp;final centerY = size.height / 2;<br>
-                &nbsp;&nbsp;const radius = 50.0;<br>
-                <br>
-                &nbsp;&nbsp;// 1️⃣ Filled circle<br>
-                &nbsp;&nbsp;final fillPaint = Paint()<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.blue<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.fill;<br>
-                <br>
-                &nbsp;&nbsp;canvas.drawCircle(Offset(size.width * 0.35, centerY), radius, fillPaint);<br>
-                <br>
-                &nbsp;&nbsp;// 2️⃣ Stroked circle<br>
-                &nbsp;&nbsp;final strokePaint = Paint()<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;..color = Colors.red<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;..style = PaintingStyle.stroke<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;..strokeWidth = 8;<br>
-                <br>
-                &nbsp;&nbsp;canvas.drawCircle(Offset(size.width * 0.65, centerY), radius, strokePaint);<br>
-                }<br>
-                </code>
-                    </div>
-                </div>
-                <div class="property-image">
-                    <img src="../assets/style_fill_stroke.png" alt="Flutter Paint style property visual example">
-                    <p class="image-caption">
-                        The filled circle is filled with blue color, and the stroked circle is outlined with red color.
-                    </p>
-                </div>
-            </div>
         </section>
 
         <section class="section">
@@ -1054,6 +1083,20 @@
                 visual aspect of your drawings. Combine properties like <code>color</code>, <code>shader</code>,
                 <code>style</code>, <code>strokeWidth</code>, and <code>maskFilter</code> to create beautiful, polished
                 graphics in Flutter.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🖼️ Visual Guide</h2>
+            <p>
+                Here is a comprehensive visual guide to Flutter's Paint class:
+            </p>
+
+            <div class="example-images">
+                <div class="example-item">
+                    <img src="../assets/paint-infographics.png" alt="Mastering Flutter's Paint Class: A Visual Guide">
+                    <p class="image-caption">Mastering Flutter's Paint Class: A Visual Guide</p>
+                </div>
             </div>
         </section>
     </div>
